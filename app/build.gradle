@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.meitu.lyh.android_transcode"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -14,7 +14,17 @@ android {
                 cppFlags ""
             }
         }
+
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+
+
+
+
     }
+
+
     buildTypes {
         release {
             minifyEnabled false

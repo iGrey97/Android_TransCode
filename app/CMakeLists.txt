@@ -10,6 +10,13 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
+
+include_directories( src/main/cpp/include/
+                     src/main/cpp/include/ffmpeg/
+                     src/main/cpp/TransCode/)
+
+
+
 add_library( # Sets the name of the library.
              native-lib
 
@@ -18,6 +25,33 @@ add_library( # Sets the name of the library.
 
              # Provides a relative path to your source file(s).
              src/main/cpp/native-lib.cpp )
+
+add_library( # Sets the name of the library.
+             transcode
+
+             # Sets the library as a shared library.
+             SHARED
+
+             # Provides a relative path to your source file(s).
+
+             src/main/cpp/TransCode/CDemux.cpp
+             src/main/cpp/TransCode/CMux.cpp
+             src/main/cpp/TransCode/CTransCode.cpp
+            )
+
+add_library( # Sets the name of the library.
+             android_transcode
+
+             # Sets the library as a shared library.
+             SHARED
+
+             # Provides a relative path to your source file(s).
+             src/main/cpp/Android_TransCode.cpp)
+
+add_library(ffmpeg SHARED IMPORTED)  #第三方库 插入
+set_target_properties(ffmpeg
+                      PROPERTIES IMPORTED_LOCATION
+                      ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libffmpeg.so)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -30,7 +64,7 @@ find_library( # Sets the name of the path variable.
 
               # Specifies the name of the NDK library that
               # you want CMake to locate.
-              log )
+              log)
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -42,3 +76,21 @@ target_link_libraries( # Specifies the target library.
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
+
+target_link_libraries( # Specifies the target library.
+                       transcode
+
+                       # Links the target library to the log library
+                       ffmpeg
+                       # included in the NDK.
+                       ${log-lib} )
+
+
+target_link_libraries( # Specifies the target library.
+                      android_transcode
+
+                      # Links the target library to the log library
+                      transcode
+                      ffmpeg
+                      # included in the NDK.
+                      ${log-lib} )

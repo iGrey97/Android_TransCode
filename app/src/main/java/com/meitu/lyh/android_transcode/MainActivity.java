@@ -9,7 +9,9 @@ public class MainActivity extends AppCompatActivity {
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
+        System.loadLibrary("android_transcode");
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
+
+        Android_TransCode("/storage/sdcard0/11/num10.mp4","/storage/sdcard0/11/lyh.mp4");
     }
 
     /**
@@ -26,4 +30,5 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+    public native int Android_TransCode(String i_file,String o_file);
 }

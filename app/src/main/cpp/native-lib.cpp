@@ -9,4 +9,5 @@ Java_com_meitu_lyh_android_1transcode_MainActivity_stringFromJNI(
         jobject /* this */) {
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
+
 }
