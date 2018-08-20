@@ -10,6 +10,10 @@
 CMux::CMux(CDemux *Demux,const char* o_Filename,
            int des_Width,
            int des_Height ,
+           int des_ChannelCount,      //声道
+           int des_Frequency,      //采样率
+
+
            double des_FrameRate,  //帧率
            AVCodecID des_Video_codecID ,
            AVPixelFormat des_Video_pixelfromat ,
@@ -20,8 +24,7 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
 
            //audio param
            uint64_t  des_Layout,
-           int des_ChannelCount,      //声道
-           int des_Frequency,      //采样率
+
            AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3
            AVSampleFormat des_BitsPerSample
            )
@@ -30,8 +33,37 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
 
     this->i_fmt_ctx=Demux->get_i_fmt_ctx();
     //video param
-    this->des_Width=des_Width;
-    this->des_Height=des_Height;
+
+    //-1则保持出入输出一样
+    if(des_Width==-1) {
+        this->des_Width=Demux->get_i_Width();
+    }else{
+        this->des_Width=des_Width;
+    }
+
+    if(des_Height==-1) {
+        this->des_Height=Demux->get_i_Height();
+    }else{
+        this->des_Height=des_Height;
+    }
+
+
+
+    if(des_ChannelCount==-1) {
+        this->des_ChannelCount=Demux->get_i_ChannelCount();       //声道
+    }else{
+        this->des_ChannelCount=des_ChannelCount;       //声道
+    }
+
+    if(des_Frequency==-1) {
+        this->des_Frequency=Demux->get_i_Frequency();
+    }else{
+        this->des_Frequency=des_Frequency;
+    }
+
+
+
+
     this->des_FrameRate=des_FrameRate;  //帧率
     this->des_Video_codecID =des_Video_codecID;
     this->des_Video_pixelfromat=des_Video_pixelfromat;
@@ -44,8 +76,7 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
 
     //audio param
     this->des_Layout=des_Layout;
-    this->des_ChannelCount=des_ChannelCount;       //声道
-    this->des_Frequency=des_Frequency;      //采样率
+
     //    44100
     //aac
     this->des_Audio_codecID = AV_CODEC_ID_AAC;//AV_CODEC_ID_AC3
@@ -132,6 +163,7 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
                 ret = avcodec_copy_context(o_video_st->codec, i_fmt_ctx->streams[i_video_stream_idx]->codec);
                 if (ret < 0) {
                     printf( "Failed to copy context from input to output stream codec context\n");
+                    LOGE("Failed to copy context from input to output stream codec context\n");
                     return ;
                 }
 
@@ -677,6 +709,7 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
         }
 #endif
         printf("video\n");
+        LOGI("video");
     }
     else if(type == AVMEDIA_TYPE_AUDIO)
     {
@@ -729,6 +762,7 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
             printf("error av_interleaved_write_frame _ audio\n");
         }
         printf("audio\n");
+        LOGI("audio");
     }
 }
 

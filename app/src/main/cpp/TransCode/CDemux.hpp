@@ -45,6 +45,13 @@ public:
     AVFormatContext *get_i_fmt_ctx(){return i_fmt_ctx;}
     int get_video_stream_idx(){return video_stream_idx;}
     int get_audio_stream_idx(){return audio_stream_idx;}
+
+    int get_i_Width(){return  i_video_st->codec->width;}
+    int get_i_Height(){return i_video_st->codec->height;}
+
+    //audio
+    int get_i_ChannelCount(){return i_audio_st->codec->channels;}
+    int get_i_Frequency(){return  i_audio_st->codec->sample_rate;}
     
 private:
     

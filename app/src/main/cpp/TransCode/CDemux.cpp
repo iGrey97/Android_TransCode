@@ -28,11 +28,13 @@ CDemux::CDemux(const char* i_Filename) {
         av_strerror(nRet, szError, 256);
         printf("\n");
         printf("Call avformat_open_input function failed!\n");
+        LOGE("open input %s:\n", szError);
         return ;
     }
     if (avformat_find_stream_info(i_fmt_ctx,NULL) < 0)
     {
         printf("Call av_find_stream_info function failed!\n");
+        LOGE("Call av_find_stream_info function failed!\n");
         return ;
     }
     //输出视频信息
@@ -73,6 +75,7 @@ int CDemux::openDecode(int stream_idx) {
     if (nRet < 0)
     {
         printf("Could not open decoder\n");
+        LOGE("Could not open decoder\n");
         return -1;
     }
     return 1;

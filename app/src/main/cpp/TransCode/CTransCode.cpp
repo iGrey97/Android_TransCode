@@ -115,7 +115,7 @@ int CTransCode::Trans() {
                 pkt.stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
                 nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
                 cout<<"video"<<endl;
-             
+                LOGI("video");
             }
         }
         //音频
@@ -167,6 +167,7 @@ int CTransCode::Trans() {
                 pkt.stream_index=o_audio_stream_idx;
                 nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
                 cout<<"audio"<<endl;
+                LOGI("audio");
                 //                write_frame(ocodec,AUDIO_ID,pkt);
             }
         }
@@ -306,7 +307,7 @@ int CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *o
         
         int64_t src_nb_samples = in_frame->nb_samples;//
         cout<<swr_get_delay(pSwrCtx,o_audio_st->codec->sample_rate)<<endl;
-        
+        LOGI("getdelay%d",swr_get_delay(pSwrCtx,o_audio_st->codec->sample_rate));
         
         //重新开空间
         out_frame->nb_samples = av_rescale_rnd(swr_get_delay(pSwrCtx,i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate) + src_nb_samples,
@@ -365,7 +366,7 @@ void CTransCode:: flush_encoder(int stream_index){
             break;
         }
         printf("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n",pkt.size);
-        
+        LOGI("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n",pkt.size);
         Mux->write_frame(type,pkt);
         
     }

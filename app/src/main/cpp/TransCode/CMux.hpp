@@ -48,6 +48,9 @@ public:
          //video param
          int des_Width = 480,
          int des_Height = 200,
+         int des_ChannelCount = 2,      //声道
+         int des_Frequency = 44100,     //采样率
+
          double des_FrameRate = 23,  //帧率
          AVCodecID des_Video_codecID = AV_CODEC_ID_H264,
          AVPixelFormat des_Video_pixelfromat = AV_PIX_FMT_YUV420P,
@@ -56,10 +59,9 @@ public:
          int des_max_b_frame = 2,
          int des_thread_count = 2,
 
-         //audio param
+            //audio param
          uint64_t  des_Layout=0,
-         int des_ChannelCount = 2,      //声道
-         int des_Frequency = 44100,     //采样率
+
          AVCodecID des_Audio_codecID = AV_CODEC_ID_AAC,//AV_CODEC_ID_AC3
          AVSampleFormat des_BitsPerSample=AV_SAMPLE_FMT_S16P
     );
