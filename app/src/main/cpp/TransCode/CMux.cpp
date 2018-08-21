@@ -7,7 +7,7 @@
 //
 
 #include "CMux.hpp"
-CMux::CMux(CDemux *Demux,const char* o_Filename,
+CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename,
            int des_Width,
            int des_Height ,
            int des_ChannelCount,      //声道
@@ -28,8 +28,9 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
            AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3
            AVSampleFormat des_BitsPerSample
            )
-:Demux(Demux),o_Filename(o_Filename)
+:c_sendInfo(c_sendInfo),Demux(Demux),o_Filename(o_Filename)
 {
+    _isFail= false;
 
     this->i_fmt_ctx=Demux->get_i_fmt_ctx();
     //video param
@@ -112,6 +113,11 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
     avformat_alloc_output_context2(&o_fmt_ctx, NULL,NULL, o_Filename);
     if (!o_fmt_ctx)
     {
+
+        if(this->c_sendInfo!= nullptr){
+            this-> c_sendInfo(2,"alloc_output_context err\n");//调试去看的话不懂为啥strTemp传过去非法的
+        }
+        _isFail=true;
         return ;
     }
     AVOutputFormat* ofmt = NULL;
@@ -126,6 +132,11 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
             av_strerror(ret, szError, 256);
             printf("Could not open '%s'\n", o_Filename);
             LOGE("Could not open'%s'\n", szError);
+
+            if(this->c_sendInfo!= nullptr){
+                this-> c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
+            }
+            _isFail=true;
             return ;
         }
     }
@@ -157,6 +168,10 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
 
                 o_video_st = avformat_new_stream(o_fmt_ctx,i_fmt_ctx->streams[i_video_stream_idx]->codec->codec);
                 if (!o_video_st) {
+                    if(this->c_sendInfo!= nullptr){
+                        this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+                    _isFail=true;
                     return ;
                 }
                 //复制AVCodecContext的设置（Copy the settings of AVCodecContext）
@@ -164,6 +179,11 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
                 if (ret < 0) {
                     printf( "Failed to copy context from input to output stream codec context\n");
                     LOGE("Failed to copy context from input to output stream codec context\n");
+
+                    if(this->c_sendInfo!= nullptr){
+                        this->c_sendInfo(2,"Failed to copy context from input to output stream codec context\n");//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+                    _isFail=true;
                     return ;
                 }
 
@@ -205,12 +225,20 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
 
                 o_audio_st = avformat_new_stream(i_fmt_ctx,i_fmt_ctx->streams[i_audio_stream_idx]->codec->codec);
                 if (!o_audio_st) {
+                    if(this->c_sendInfo!= nullptr){
+                        this->c_sendInfo(2,"Failed to new stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+                    _isFail=true;
                     return ;
                 }
                 //复制AVCodecContext的设置（Copy the settings of AVCodecContext）
                 ret = avcodec_copy_context(o_audio_st->codec, i_fmt_ctx->streams[i_audio_stream_idx]->codec);
                 if (ret < 0) {
                     printf( "Failed to copy context from input to output stream codec context\n");
+                    if(this->c_sendInfo!= nullptr){
+                        this->c_sendInfo(2,"Failed to copy context from input to output stream codec context\n");//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+                    _isFail=true;
                     return ;
                 }
 
@@ -273,8 +301,20 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
         {
             //解码初始化
             ret = Demux->openDecode(i_video_stream_idx);
+            if(ret!=1){
+                //打开失败
+                if(this->c_sendInfo!= nullptr){
+                    this->c_sendInfo(2,"Failed to openDecode\n");
+                }
+            }
             //编码初始化
             ret = openCode(o_video_stream_idx);
+            if(ret!=1){
+                //打开失败
+                if(this->c_sendInfo!= nullptr){
+                    this->c_sendInfo(2,"Failed to openCode\n");
+                }
+            }
         }
     }
     //如果是音频需要编解码
@@ -287,14 +327,30 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
         {
             //解码初始化
             ret = Demux->openDecode(i_audio_stream_idx);
+            if(ret!=1){
+                //打开失败
+                if(this->c_sendInfo!= nullptr){
+                    this->c_sendInfo(2,"Failed to openDecode\n");
+                }
+            }
             //编码初始化
             ret = openCode(o_audio_stream_idx);
+            if(ret!=1){
+                //打开失败
+                if(this->c_sendInfo!= nullptr){
+                    this->c_sendInfo(2,"Failed to openCode\n");
+                }
+            }
         }
     }
      ret = avformat_write_header(o_fmt_ctx, NULL);//会设置流的时基（视频90000、音频sample_rate）
     if (ret != 0)
     {
         printf("Call avformat_write_header function failed.\n");
+        if(this->c_sendInfo!= nullptr){
+            this->c_sendInfo(2,"Call avformat_write_header function failed.\n");//调试去看的话不懂为啥strTemp传过去非法的
+        }
+        _isFail=true;
         return ;
     }
     return ;
@@ -303,7 +359,9 @@ CMux::CMux(CDemux *Demux,const char* o_Filename,
 
 CMux:: ~CMux(){
 
-
+    if(!this->o_fmt_ctx){
+        return;
+    }
     int i = 0;
     int nRet = av_write_trailer(o_fmt_ctx);
     if (nRet < 0)
@@ -312,6 +370,9 @@ CMux:: ~CMux(){
 //        printf(szError);
         printf("\n");
         printf("Call av_write_trailer function failed\n");
+        if(!c_sendInfo){
+            c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
+        }
     }
     if (vbsf_aac_adtstoasc !=NULL)
     {

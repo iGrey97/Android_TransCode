@@ -11,8 +11,12 @@
 
 
 
-CTransCode::CTransCode(CDemux *Demux,CMux *Mux,int sws_flags)
-:Demux(Demux),Mux(Mux),sws_flags(sws_flags){
+
+
+CTransCode::CTransCode(void (*c_sendInfo)(int what, string info),CDemux *Demux,CMux *Mux,int sws_flags)
+:c_sendInfo(c_sendInfo),Demux(Demux),Mux(Mux),sws_flags(sws_flags){
+    _isFail= false;
+
     pinframe = NULL;
     pout_video_frame = NULL;
     pout_audio_frame = NULL;
@@ -48,6 +52,7 @@ CTransCode::CTransCode(CDemux *Demux,CMux *Mux,int sws_flags)
     if (pinframe == NULL)
     {
         printf("avcodec_alloc_frame pinframe error\n");
+        _isFail=true;
         return ;
     }
     pinframe->pts = 0;
@@ -56,6 +61,7 @@ CTransCode::CTransCode(CDemux *Demux,CMux *Mux,int sws_flags)
     if (pout_video_frame == NULL)
     {
         printf("avcodec_alloc_frame pout_video_frame error\n");
+        _isFail=true;
         return ;
     }
     pout_video_frame->pts = 0;
@@ -65,6 +71,7 @@ CTransCode::CTransCode(CDemux *Demux,CMux *Mux,int sws_flags)
     if (pout_audio_frame == NULL)
     {
         printf("avcodec_alloc_frame pout_audio_frame error\n");
+        _isFail=true;
         return ;
     }
     pout_audio_frame->pts = 0;
@@ -102,6 +109,21 @@ int CTransCode::Trans() {
                 nRet = Demux->decode(AVMEDIA_TYPE_VIDEO, pinframe, pkt);
                 if (nRet == 0)
                 {
+                    //进度
+                    int64_t pts=pkt.dts;
+                    int64_t duration=i_fmt_ctx->streams[i_video_stream_idx]->duration;
+                    int schedule=pts*1.0/duration*100;
+
+                    //使用流的方式int2String
+                    stringstream stream;
+                    stream<<schedule;
+                    std::string strTemp=stream.str();   //此处也可以用 stream>>string_temp
+                    if(this->c_sendInfo!= nullptr){
+                        this->c_sendInfo(1,strTemp);//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+
+                    LOGI("schedule:%d %%",schedule);
+
                     yuv_conversion(pinframe,pout_video_frame);
                     pout_video_frame->pts = pinframe->best_effort_timestamp;
 
@@ -207,6 +229,10 @@ int CTransCode::Trans() {
     {
         swr_free(&swr_ctx);
         swr_ctx = NULL;
+    }
+    LOGI("schedule:%d %%",100);
+    if(this->c_sendInfo!= nullptr){
+        this->c_sendInfo(1,"100");//调试去看的话不懂为啥strTemp传过去非法的
     }
     return 1;
 }

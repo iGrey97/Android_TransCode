@@ -9,7 +9,11 @@
 #include "CDemux.hpp"
 
 
-CDemux::CDemux(const char* i_Filename) {
+CDemux::CDemux(void (*c_sendInfo)(int what, string info),const char* i_Filename)
+:c_sendInfo(c_sendInfo)
+{
+//    throw CMyException("123");
+    _isFail= false;
     av_register_all();
     i_fmt_ctx= nullptr;
 
@@ -20,6 +24,8 @@ CDemux::CDemux(const char* i_Filename) {
     audio_codec = nullptr;
     video_codec = nullptr;
 
+
+    LOGE("123");
     int nRet = avformat_open_input(&i_fmt_ctx, i_Filename,NULL, NULL);
     LOGD("##input nRet:%d\n", nRet);
     if (nRet != 0)
@@ -29,12 +35,20 @@ CDemux::CDemux(const char* i_Filename) {
         printf("\n");
         printf("Call avformat_open_input function failed!\n");
         LOGE("open input %s:\n", szError);
+        if(this->c_sendInfo!= nullptr){
+            this->c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
+        }
+        _isFail=true;
         return ;
     }
     if (avformat_find_stream_info(i_fmt_ctx,NULL) < 0)
     {
         printf("Call av_find_stream_info function failed!\n");
         LOGE("Call av_find_stream_info function failed!\n");
+        if(this->c_sendInfo!= nullptr){
+            this->c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
+        }
+        _isFail=true;
         return ;
     }
     //输出视频信息
@@ -76,6 +90,10 @@ int CDemux::openDecode(int stream_idx) {
     {
         printf("Could not open decoder\n");
         LOGE("Could not open decoder\n");
+        if(this->c_sendInfo!= nullptr){
+            this->c_sendInfo(2,"Could not open decoder\n");//调试去看的话不懂为啥strTemp传过去非法的
+        }
+        _isFail=true;
         return -1;
     }
     return 1;
@@ -122,4 +140,4 @@ int CDemux::decode(AVMediaType type,AVFrame * frame,AVPacket &packet)
         }
     }
     return 1;
-    }
+}

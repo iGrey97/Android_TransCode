@@ -8,8 +8,11 @@
 
 #ifndef CDemux_hpp
 #define CDemux_hpp
+
+
 #include "LogHelper.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 
@@ -37,11 +40,12 @@ extern "C"
 
 class CDemux{
 public:
-    CDemux(const char* i_Filename);
+    CDemux(void (*c_sendInfo)(int what, string info),const char* i_Filename);
     int openDecode(int stream_idx);
     int closeDecode(int stream_idx);
     int decode(AVMediaType type,AVFrame * frame,AVPacket &packet);
-   
+
+    bool isFail(){ return this->_isFail;}
     AVFormatContext *get_i_fmt_ctx(){return i_fmt_ctx;}
     int get_video_stream_idx(){return video_stream_idx;}
     int get_audio_stream_idx(){return audio_stream_idx;}
@@ -52,9 +56,11 @@ public:
     //audio
     int get_i_ChannelCount(){return i_audio_st->codec->channels;}
     int get_i_Frequency(){return  i_audio_st->codec->sample_rate;}
-    
+
+
 private:
-    
+    bool _isFail;
+    void (*c_sendInfo)(int what, string info);//传给java信息
 
     AVFormatContext* i_fmt_ctx;
     AVStream * i_video_st ;

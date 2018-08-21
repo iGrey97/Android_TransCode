@@ -9,8 +9,12 @@
 #ifndef CTransCode_hpp
 #define CTransCode_hpp
 
+
 #include <stdio.h>
+#include <sstream>
+#include <string>
 #include <iostream>
+
 using namespace std;
 
 
@@ -43,8 +47,9 @@ extern "C"
 class CTransCode{
   
 public:
-    CTransCode(CDemux *Demux,CMux *Mux, int sws_flags = SWS_BICUBIC);
+    CTransCode(void (*c_sendInfo)(int what, string info),CDemux *Demux,CMux *Mux, int sws_flags = SWS_BICUBIC);
     ~CTransCode(){}
+    bool isFail(){ return this->_isFail;}
     int Trans();
     
     void yuv_conversion(AVFrame * pinframe,AVFrame * poutframe);
@@ -56,6 +61,8 @@ public:
     void  flush_encoder(int stream_index);
     
 private:
+    bool _isFail;
+    void (*c_sendInfo)(int what, string info);//传给java信息
     CDemux *Demux;
     CMux *Mux;
     AVFrame *pinframe ;

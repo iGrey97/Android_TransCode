@@ -1,5 +1,10 @@
 package com.meitu.lyh.android_transcode;
 
+import android.os.Handler;
+import android.os.Message;
+
+import java.security.PublicKey;
+
 public class Android_TransCode {
 
     private String i_file;
@@ -8,9 +13,10 @@ public class Android_TransCode {
     private int height;
     private int channels;
     private int audio_samp_rate;
+    private Handler transHandler;
 
-    public Android_TransCode(String i_file,String o_file,int width,int height,int channels,int audio_samp_rate){
-
+    public Android_TransCode(Handler transHandler,String i_file,String o_file,int width,int height,int channels,int audio_samp_rate){
+        this.transHandler=transHandler;
         this.i_file=i_file;
         this.o_file=o_file;
         this.width=width;
@@ -25,4 +31,14 @@ public class Android_TransCode {
         System.loadLibrary("android_transcode");
     }
     public native int jni_trancode(String i_file,String o_file,int width,int height,int channels,int audio_samp_rate);
+
+    public void sendInfo(int what, String info){
+
+        Message message = Message.obtain();
+        message.what = what;
+        message.obj = info;
+        transHandler.sendMessage(message);
+
+    }
+
 }

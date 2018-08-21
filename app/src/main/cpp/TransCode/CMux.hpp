@@ -44,7 +44,7 @@ extern "C"
 
 class CMux{
 public:
-    CMux(CDemux *Demux,const char* o_Filename,
+    CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename,
          //video param
          int des_Width = 480,
          int des_Height = 200,
@@ -66,6 +66,7 @@ public:
          AVSampleFormat des_BitsPerSample=AV_SAMPLE_FMT_S16P
     );
     ~CMux();
+    bool isFail(){ return this->_isFail;}
     int audio_support(enum AVCodecID codecId,int *channel,uint64_t * layout,int *samplePerSec,AVSampleFormat * sample_fmt);
     int video_support(enum AVCodecID codecId,AVPixelFormat * video_pixelfromat);
 
@@ -102,6 +103,9 @@ public:
     AVCodecID get_des_Audio_codecID(){return des_Audio_codecID;}
     AVAudioFifo *& get_audiofifo(){return audiofifo;}
 private:
+    bool _isFail;;
+
+    void (*c_sendInfo)(int what, string info);
     char szError[256];
     CDemux *Demux;
     const char *o_Filename;

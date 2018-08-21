@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +43,28 @@ public class MainActivity extends AppCompatActivity {
     private TextView progressTv;
     private TextView infoTv;
     private ProgressBar progressBarHorizontal;
+
+
+
+    //用handle处理别的线程发来的消息（别的线程中不能更新UI，只能做UI线程中做）
+    private Handler transHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //UI线程中处理消息
+            switch (msg.what){
+                case 1:
+                    progressTv.setText(msg.obj.toString()+"%");
+                    progressBarHorizontal.setProgress(Integer.parseInt(msg.obj.toString()));
+                    break;
+                case 2:
+                    infoTv.append(msg.obj.toString());
+                    break;
+            }
+
+
+        }
+    };
 
 
     @Override
@@ -64,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");//设置类型，这里设的是任意类型，任意后缀的可以这样写。
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -84,14 +110,17 @@ public class MainActivity extends AppCompatActivity {
                 if(editIn.getText().toString().isEmpty()||editout.getText().toString().isEmpty()){
                     //抛异常
                     Log.e("Android_TransCode","Edit In/Out is Empty");
+                    Toast.makeText(MainActivity.this,"Edit In/Out is Empty",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.i("Android_TransCode",editIn.getText().toString());
+
+
 ////                   public Android_TransCode(String i_file,String o_file,int width,int height,int channels,int audio_samp_rate)
 //
 //                Android_TransCode transcode = new Android_TransCode("/storage/sdcard0/11/num10.mp4", "/storage/sdcard0/11/lyh.mp4",
 //                        200, 200,
 //                        1, 44100);
+
                 new Thread(){
                     @Override
                     public void run() {
@@ -130,16 +159,26 @@ public class MainActivity extends AppCompatActivity {
                         if(!strSamples.isEmpty()){
                             intSamples=Integer.parseInt(strSamples);
                         }
-                        Android_TransCode transcode = new Android_TransCode(strIn, strOut,
+                        Android_TransCode transcode = new Android_TransCode(transHandler,strIn, strOut,
                                 intWidth,intHeight, intChannels, intSamples);
                         Log.i("Android_TransCode","Begin");
 
                         Date curDate = new Date(System.currentTimeMillis());
 
 
+//                         Message message = Message.obtain();
+//                         message.what = 1;
+//                         message.arg1 = 2;
+//                         message.arg2 = 3;
+//                         message.obj = "jack";
+//                         transHandler.sendMessage(message);
+
+
+
 
 
                         transcode.Transcode();
+
                         Date endDate = new Date(System.currentTimeMillis());
                         double diff = endDate.getTime() - curDate.getTime();
                         Log.i("Android_TransCode","spend time"+diff/1000.0+"s");
