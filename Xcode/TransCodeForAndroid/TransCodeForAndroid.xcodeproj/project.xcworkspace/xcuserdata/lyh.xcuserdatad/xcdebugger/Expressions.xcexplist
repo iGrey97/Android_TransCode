@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CMux::CMux(void (*)(int, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;), CDemux*, char const*, int, int, int, int, double, AVCodecID, AVPixelFormat, int, int, int, int, unsigned long long, AVCodecID, AVSampleFormat):CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CMux::add_out_stream(AVFormatContext*, AVMediaType, AVCodec**):CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CMux::code_and_write(AVMediaType, AVFrame*):CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CMux::audio_support(AVCodecID, int*, unsigned long long*, int*, AVSampleFormat*):CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CTransCode::yuv_conversion(AVFrame*, AVFrame*):CTransCode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CTransCode::pcm_resample(SwrContext*, AVFrame*, AVFrame*):CTransCode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CDemux::decode(AVMediaType, AVFrame*, AVPacket&amp;):CDemux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CMux::write_frame(AVMediaType, AVPacket&amp;):CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CDemux::openDecode(int):CDemux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CMux::openCode(int):CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CTransCode::init_pcm_resample(AVFrame*, AVFrame*):CTransCode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CTransCode::Trans():CTransCode.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "pinframe">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CTransCode::CTransCode(void (*)(int, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;), CDemux*, CMux*, int):CTransCode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CMux::~CMux():CMux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CDemux::CDemux(void (*)(int, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;), char const*):CDemux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CDemux::~CDemux():CDemux.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "CTransCode::flush_encoder(int):CTransCode.cpp">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

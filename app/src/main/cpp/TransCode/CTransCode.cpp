@@ -17,18 +17,29 @@ CTransCode::CTransCode(void (*c_sendInfo)(int what, string info),CDemux *Demux,C
 :c_sendInfo(c_sendInfo),Demux(Demux),Mux(Mux),sws_flags(sws_flags){
     _isFail= false;
 
+    
     pinframe = NULL;
     pout_video_frame = NULL;
     pout_audio_frame = NULL;
     swr_ctx = NULL;
     img_convert_ctx_video = NULL;
     
+    video_directWrite=Mux->get_video_directWrite();
+    audio_directWrite=Mux->get_audio_directWrite();
+    
+    
+    o_video_codec_ctx=Mux->get_o_video_codec_ctx();
+    o_audio_codec_ctx=Mux->get_o_audio_codec_ctx();
     o_video_st=Mux->get_o_video_st();
     o_audio_st=Mux->get_o_audio_st();
     
     i_video_stream_idx=Demux->get_video_stream_idx();
     i_audio_stream_idx=Demux->get_audio_stream_idx();
     i_fmt_ctx=Demux->get_i_fmt_ctx();
+    i_video_codec_ctx=Demux->get_i_video_codec_ctx();
+    i_audio_codec_ctx=Demux->get_i_audio_codec_ctx();
+    
+    
     o_fmt_ctx=Mux->get_o_fmt_ctx();
     o_video_stream_idx=Mux->get_o_video_stream_idx();
     o_audio_stream_idx=Mux->get_o_audio_stream_idx();
@@ -99,12 +110,16 @@ int CTransCode::Trans() {
         //视频
         if(pkt.stream_index == i_video_stream_idx )
         {
+//            if (!video_directWrite) {
+//                <#statements#>
+//            }
             //如果是视频需要编解码
-            if(des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codec->bit_rate ||
-               des_Width  != i_fmt_ctx->streams[i_video_stream_idx]->codec->width ||
-               des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codec->height ||
-               video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codec->codec_id ||
-               des_frameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+//            if(des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate ||
+//               des_Width  != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width ||
+//               des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height ||
+//               video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id )//||
+////               des_frameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+            if(!video_directWrite)
             {
                 nRet = Demux->decode(AVMEDIA_TYPE_VIDEO, pinframe, pkt);
                 if (nRet == 0)
@@ -134,7 +149,7 @@ int CTransCode::Trans() {
             else
             {
                 pkt.pos = -1;
-                pkt.stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+                pkt.stream_index=o_video_stream_idx;
                 nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
                 cout<<"video"<<endl;
                 LOGI("video");
@@ -145,52 +160,46 @@ int CTransCode::Trans() {
         {
             
             //如果是音频需要编解码
-            if(audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codec->codec_id  ||
-               des_BitsPerSample != i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt||
-               des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate||
-               des_channelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels)
+//            if(audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
+//               des_BitsPerSample != i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt||
+//               des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate||
+//               des_channelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
+            if(!audio_directWrite)
             {
                 nRet = Demux->decode(AVMEDIA_TYPE_AUDIO, pinframe, pkt);
                 if (nRet == 0)
                 {
-                    //如果进和出的的声道，样本，采样率不同,需要重采样
-                    if(i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt != des_BitsPerSample ||
-                       i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels != des_channelCount ||
-                       i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate != des_Frequency)
-                    {
+     
                         //                        av_frame_get_buffer(pout_audio_frame, 0);、不用获取了，虽然av_freep释放了，但是av_samples_alloc又会获得
                         if (swr_ctx == NULL)
                         {
                             swr_ctx = init_pcm_resample(pinframe,pout_audio_frame);
+                            if (!swr_ctx) {
+                                return 0;//失败
+                            }
+                            
                         }
-                        pcm_resample(swr_ctx,pinframe,pout_audio_frame);
+                        if(pcm_resample(swr_ctx,pinframe,pout_audio_frame)<0)
+                        {
+                            return 0;//失败
+                        }
 
                         
                         Mux->code_and_write(AVMEDIA_TYPE_AUDIO, pout_audio_frame);
                         av_freep(&(pout_audio_frame->data[0]));
-      }
-                    else
-                    {
-                        pinframe->pts = pinframe->pkt_pts;
-                        //                        ffmpeg在解码的时候将解码出来的顺序时间戳给了frame的pkt_pts这个成员，所以我们可以直接用这个值赋值给frame的pts，在送进编码器，这样编码出来的pkt中的时间戳就和原来的audio对上了。
+                 
 
-                        Mux->code_and_write(AVMEDIA_TYPE_AUDIO, pout_audio_frame);
-
-
-                    }
                 }
             }
             else
             {
-                pkt.pts = av_rescale_q_rnd(pkt.pts, i_fmt_ctx->streams[i_audio_stream_idx]->time_base, o_audio_st->time_base, (AVRounding)(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-                pkt.dts = av_rescale_q_rnd(pkt.dts, i_fmt_ctx->streams[i_audio_stream_idx]->time_base, o_audio_st->time_base, (AVRounding)(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
-                pkt.duration = av_rescale_q(pkt.duration, i_fmt_ctx->streams[i_audio_stream_idx]->time_base, o_audio_st->time_base);
+                //格式一模一样直接写
+
                 pkt.pos = -1;
                 pkt.stream_index=o_audio_stream_idx;
                 nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
                 cout<<"audio"<<endl;
                 LOGI("audio");
-                //                write_frame(ocodec,AUDIO_ID,pkt);
             }
         }
         
@@ -203,11 +212,18 @@ int CTransCode::Trans() {
     
     //清缓存
     /* flush  encoders */
-    for (int i = 0; i < i_fmt_ctx->nb_streams; i++) {
-        
-        /* flush encoder */
-        flush_encoder(i);
-        
+//    for (int i = 0; i < i_fmt_ctx->nb_streams; i++) {
+//        
+//        /* flush encoder */
+//        if
+//        flush_encoder(i);
+//        
+//    }
+    if(!video_directWrite){
+        flush_encoder(o_video_stream_idx);
+    }
+    if(!audio_directWrite){
+        flush_encoder(o_audio_stream_idx);
     }
     
     if (pinframe)
@@ -244,8 +260,8 @@ void CTransCode::yuv_conversion(AVFrame * pinframe,AVFrame * poutframe)
     
     if (img_convert_ctx_video == NULL)
     {
-        img_convert_ctx_video = sws_getContext(i_fmt_ctx->streams[i_video_stream_idx]->codec->width, i_fmt_ctx->streams[i_video_stream_idx]->codec->height,
-                                               i_fmt_ctx->streams[i_video_stream_idx]->codec->pix_fmt,
+        img_convert_ctx_video = sws_getContext(i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width, i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height,
+                                               i_video_codec_ctx->pix_fmt,
                                                des_Width, des_Height,
                                                des_Video_pixelfroma,
                                                sws_flags, NULL, NULL, NULL);
@@ -256,12 +272,15 @@ void CTransCode::yuv_conversion(AVFrame * pinframe,AVFrame * poutframe)
     }
     //开始转换
     sws_scale(img_convert_ctx_video, pinframe->data, pinframe->linesize,
-              0, i_fmt_ctx->streams[i_video_stream_idx]->codec->height, poutframe->data, poutframe->linesize);
-    poutframe->pkt_pts = pinframe->pkt_pts;
-    poutframe->pkt_dts = pinframe->pkt_dts;
-    //有时pkt_pts和pkt_dts不同，并且pkt_pts是编码前的dts,这里要给avframe传入pkt_dts而不能用pkt_pts
-    //poutframe->pts = poutframe->pkt_pts;
-    poutframe->pts = pinframe->pkt_dts;
+              0, i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height, poutframe->data, poutframe->linesize);
+//    poutframe->pkt_pts = pinframe->pkt_pts;
+//    poutframe->pkt_dts = pinframe->pkt_dts;
+//    //有时pkt_pts和pkt_dts不同，并且pkt_pts是编码前的dts,这里要给avframe传入pkt_dts而不能用pkt_pts
+//    //poutframe->pts = poutframe->pkt_pts;
+//    poutframe->pts = pinframe->pkt_dts;
+    poutframe->pts=pinframe->pts;
+    
+    
     
     
     
@@ -280,17 +299,17 @@ SwrContext * CTransCode:: init_pcm_resample(AVFrame *in_frame, AVFrame *out_fram
         printf("swr_alloc error \n");
         return NULL;
     }
-    AVCodecContext * audio_dec_ctx = i_fmt_ctx->streams[i_audio_stream_idx]->codec;
-    
+//    AVCodecContext * audio_dec_ctx = i_fmt_ctx->streams[i_audio_stream_idx]->codec;
+    AVCodecContext * audio_dec_ctx = i_audio_codec_ctx;
     if (audio_dec_ctx->channel_layout == 0)//不懂干嘛,把源数据的改了
     {
-        audio_dec_ctx->channel_layout = av_get_default_channel_layout(i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels);
+        audio_dec_ctx->channel_layout = av_get_default_channel_layout(i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels);
     }
     /* set options */
     av_opt_set_int(swr_ctx, "in_channel_layout",    audio_dec_ctx->channel_layout, 0);
     av_opt_set_int(swr_ctx, "in_sample_rate",       audio_dec_ctx->sample_rate, 0);
     av_opt_set_sample_fmt(swr_ctx, "in_sample_fmt", audio_dec_ctx->sample_fmt, 0);
-    if(i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels > 2)
+    if(i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels > 2)
     {
         av_opt_set_int(swr_ctx, "out_channel_layout",    av_get_default_channel_layout(des_channelCount), 0);
     }
@@ -305,18 +324,18 @@ SwrContext * CTransCode:: init_pcm_resample(AVFrame *in_frame, AVFrame *out_fram
     
     
     int64_t src_nb_samples = in_frame->nb_samples;//
-    out_frame->nb_samples = av_rescale_rnd(swr_get_delay(swr_ctx,o_audio_st->codec->sample_rate) + src_nb_samples,
-                                           o_audio_st->codec->sample_rate, o_audio_st->codec->sample_rate, AV_ROUND_UP);
+    out_frame->nb_samples = (int)av_rescale_rnd(swr_get_delay(swr_ctx,o_audio_st->codecpar->sample_rate) + src_nb_samples,
+                                           o_audio_st->codecpar->sample_rate, o_audio_st->codecpar->sample_rate, AV_ROUND_UP);
     //一个输出一个输入
     int ret = av_samples_alloc(out_frame->data, &out_frame->linesize[0],
-                               i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels, out_frame->nb_samples,o_audio_st->codec->sample_fmt,1);
+                               i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels, out_frame->nb_samples,o_audio_codec_ctx->sample_fmt,1);
     if (ret < 0)
     {
         return NULL;
     }
     
     
-    Mux->get_audiofifo()= av_audio_fifo_alloc(o_audio_st->codec->sample_fmt, o_audio_st->codec->channels,
+    Mux->get_audiofifo()= av_audio_fifo_alloc(o_audio_codec_ctx->sample_fmt, o_audio_st->codecpar->channels,
                                               out_frame->nb_samples);
     
     return swr_ctx;
@@ -332,69 +351,104 @@ int CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *o
         /*************************每次从新getdelay版本**********************/
         
         int64_t src_nb_samples = in_frame->nb_samples;//
-        cout<<swr_get_delay(pSwrCtx,o_audio_st->codec->sample_rate)<<endl;
+        cout<<swr_get_delay(pSwrCtx,o_audio_st->codecpar->sample_rate)<<endl;
         LOGI("getdelay%d",swr_get_delay(pSwrCtx,o_audio_st->codec->sample_rate));
         
         //重新开空间
-        out_frame->nb_samples = av_rescale_rnd(swr_get_delay(pSwrCtx,i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate) + src_nb_samples,
-                                               o_audio_st->codec->sample_rate, i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate ,AV_ROUND_UP);
+        out_frame->nb_samples = (int)av_rescale_rnd(swr_get_delay(pSwrCtx,i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate) + src_nb_samples,
+                                               o_audio_st->codecpar->sample_rate, i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate ,AV_ROUND_UP);
         
         
         int ret = av_samples_alloc(out_frame->data, &out_frame->linesize[0],
-                                   i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels, out_frame->nb_samples,o_audio_st->codec->sample_fmt,1);
+                                   i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels, out_frame->nb_samples,o_audio_codec_ctx->sample_fmt,1);
         
-        
-        
-        out_frame->nb_samples = swr_convert(pSwrCtx, out_frame->data, out_frame->nb_samples,
-                                            (const uint8_t**)in_frame->data, in_frame->nb_samples);
         
         if (ret < 0)
         {
             return -1;
         }
+        out_frame->nb_samples = swr_convert(pSwrCtx, out_frame->extended_data, out_frame->nb_samples,
+                                            (const uint8_t**)in_frame->extended_data, in_frame->nb_samples);
+        
+      
         
         
         
         av_audio_fifo_realloc(Mux->get_audiofifo(), av_audio_fifo_size(Mux->get_audiofifo()) + out_frame->nb_samples);
+        
         av_audio_fifo_write(Mux->get_audiofifo(),(void **)out_frame->data,out_frame->nb_samples);
         
         
-        out_frame->pkt_pts = in_frame->pkt_pts;
-        out_frame->pkt_dts = in_frame->pkt_dts;
-        //有时pkt_pts和pkt_dts不同，并且pkt_pts是编码前的dts,这里要给avframe传入pkt_dts而不能用pkt_pts
-        //out_frame->pts = out_frame->pkt_pts;
-        out_frame->pts = in_frame->pkt_dts;
+//        out_frame->pkt_pts = in_frame->pkt_pts;
+//        out_frame->pkt_dts = in_frame->pkt_dts;
+//        //有时pkt_pts和pkt_dts不同，并且pkt_pts是编码前的dts,这里要给avframe传入pkt_dts而不能用pkt_pts
+//        //out_frame->pts = out_frame->pkt_pts;
+//        out_frame->pts = in_frame->pkt_dts;
+        out_frame->pts=in_frame->pts;
     }
     return 0;
 }
 
 
 void CTransCode:: flush_encoder(int stream_index){
-    int ret;
-    int got_frame;
+    int error=0;
+  
     AVPacket pkt;
-    AVMediaType type=o_fmt_ctx->streams[stream_index]->codec->codec_type;
-    int (*enc_fun)(AVCodecContext *, AVPacket *, const AVFrame *, int *)=o_fmt_ctx->streams[stream_index]->codec->codec_type==AVMEDIA_TYPE_AUDIO ? avcodec_encode_audio2 : avcodec_encode_video2;
-    if (!(o_fmt_ctx->streams[stream_index]->codec->codec->capabilities &
-          AV_CODEC_CAP_DELAY))
-    return;
-    while (1) {
-        pkt.data = NULL;
-        pkt.size = 0;
-        av_init_packet(&pkt);
-        ret = enc_fun (o_fmt_ctx->streams[stream_index]->codec, &pkt,
-                       NULL, &got_frame);
-        
-        if (ret < 0)//失败
-        break;
-        if (!got_frame){//清空了
-            ret=0;
+    AVCodecContext *CodecCtx;
+    
+    AVMediaType type=o_fmt_ctx->streams[stream_index]->codecpar->codec_type;
+//    int (*enc_fun)(AVCodecContext *, AVPacket *, const AVFrame *, int *)=o_fmt_ctx->streams[stream_index]->codecpar->codec_type==AVMEDIA_TYPE_AUDIO ? avcodec_encode_audio2 : avcodec_encode_video2;
+    if(type==AVMEDIA_TYPE_AUDIO){
+        CodecCtx =o_audio_codec_ctx;
+        if (!(o_audio_codec_ctx->codec->capabilities & AV_CODEC_CAP_DELAY))
+            return;
+    }else{
+         CodecCtx =o_video_codec_ctx;
+        if (!(o_video_codec_ctx->codec->capabilities &AV_CODEC_CAP_DELAY))
+            return;
+    }
+   
+   
+
+    av_init_packet(&pkt);
+    pkt.data = NULL;
+    pkt.size = 0;
+   
+    
+
+    error = avcodec_send_frame(CodecCtx, NULL);
+    /* The encoder signals that it has nothing more to encode. */
+    if (error == AVERROR_EOF) {
+         fprintf(stderr, "send packetAVERROR_EOF\n");
+    } else if (error < 0) {
+        fprintf(stderr, "Could not send packet for encoding (error '%s')\n",av_err2str(error));
+        return ;
+    }
+    while (1) {//发一次nullptr,就可以了
+        /* Receive one encoded frame from the encoder. */
+        error = avcodec_receive_packet(CodecCtx, &pkt);
+        /* If the encoder asks for more data to be able to provide an
+         * encoded frame, return indicating that no data is present. */
+        if (error == AVERROR(EAGAIN)) {
+  
+            /* If the last frame has been encoded, stop encoding. */
+        } else if (error == AVERROR_EOF) {
+    
             break;
+            
+        } else if (error < 0) {
+            fprintf(stderr, "Could not encode frame (error '%s')\n",av_err2str(error));
+            break;
+            /* Default case: Return encoded data. */
+        } else {
+            
+//            pkt.stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+            
+            printf("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n",pkt.size);
+            LOGI("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n",pkt.size);
+            Mux->write_frame(type,pkt);
+            av_packet_unref(&pkt);
         }
-        printf("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n",pkt.size);
-        LOGI("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n",pkt.size);
-        Mux->write_frame(type,pkt);
-        
     }
     
 }

@@ -16,6 +16,7 @@
 #include <iostream>
 using namespace std;
 
+//#define STREAM_TB
 
 extern "C"
 {
@@ -54,7 +55,7 @@ public:
          double des_FrameRate = 23,  //帧率
          AVCodecID des_Video_codecID = AV_CODEC_ID_H264,
          AVPixelFormat des_Video_pixelfromat = AV_PIX_FMT_YUV420P,
-         int des_bit_rate = 261371,
+         int des_bit_rate =261371,// 3210886,//261371,
          int des_gop_size = 12,
          int des_max_b_frame = 2,
          int des_thread_count = 2,
@@ -63,7 +64,7 @@ public:
          uint64_t  des_Layout=0,
 
          AVCodecID des_Audio_codecID = AV_CODEC_ID_AAC,//AV_CODEC_ID_AC3
-         AVSampleFormat des_BitsPerSample=AV_SAMPLE_FMT_S16P
+         AVSampleFormat des_BitsPerSample=AV_SAMPLE_FMT_FLTP//AV_SAMPLE_FMT_S16P
     );
     ~CMux();
     bool isFail(){ return this->_isFail;}
@@ -102,6 +103,12 @@ public:
     AVSampleFormat get_des_BitsPerSample(){return des_BitsPerSample;}
     AVCodecID get_des_Audio_codecID(){return des_Audio_codecID;}
     AVAudioFifo *& get_audiofifo(){return audiofifo;}
+    AVCodecContext *get_o_video_codec_ctx(){ return o_video_codec_ctx;}
+    AVCodecContext *get_o_audio_codec_ctx(){ return o_audio_codec_ctx;}
+    
+    bool get_video_directWrite(){return video_directWrite;}
+    bool get_audio_directWrite(){return audio_directWrite;}
+   
 private:
     bool _isFail;;
 
@@ -112,10 +119,14 @@ private:
 
 
     AVFormatContext* o_fmt_ctx ;
+    AVCodecContext *o_video_codec_ctx;
+    AVCodecContext *o_audio_codec_ctx;
     int o_video_stream_idx ;
     int o_audio_stream_idx ;
 
     AVFormatContext* i_fmt_ctx;
+    AVCodecContext *i_video_codec_ctx;
+    AVCodecContext *i_audio_codec_ctx;
     int i_video_stream_idx;
     int i_audio_stream_idx;
 
@@ -125,11 +136,7 @@ private:
     AVCodec *audio_codec ;
     AVCodec *video_codec ;
 
-    AVBitStreamFilterContext * vbsf_aac_adtstoasc ;
-
-
-    AVBSFContext *audio_bsf_ctx;
-    const AVBitStreamFilter *audio_filter;
+    
 
     //video param
     int des_Width ;
@@ -165,8 +172,11 @@ private:
     //int audio_frame_size  = 1152;
 
 
-   AVAudioFifo * audiofifo ;
+    AVAudioFifo * audiofifo ;
 
+    
+    bool video_directWrite=false;
+    bool audio_directWrite=false;
     
 };
 

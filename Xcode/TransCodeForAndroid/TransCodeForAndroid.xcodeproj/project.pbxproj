@@ -1,0 +1,343 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		14DC6FAB212BFB0B006255F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FAA212BFB0B006255F7 /* main.cpp */; };
+		14DC6FB7212BFB56006255F7 /* CDemux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FB2212BFB56006255F7 /* CDemux.cpp */; };
+		14DC6FB8212BFB56006255F7 /* CTransCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FB5212BFB56006255F7 /* CTransCode.cpp */; };
+		14DC6FB9212BFB56006255F7 /* CMux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FB6212BFB56006255F7 /* CMux.cpp */; };
+		14DC6FC6212BFDDD006255F7 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FBE212BFDDD006255F7 /* libavfilter.a */; };
+		14DC6FC7212BFDDD006255F7 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FBF212BFDDD006255F7 /* libswresample.a */; };
+		14DC6FC8212BFDDD006255F7 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC0212BFDDD006255F7 /* libavdevice.a */; };
+		14DC6FC9212BFDDD006255F7 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC1212BFDDD006255F7 /* libswscale.a */; };
+		14DC6FCA212BFDDD006255F7 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC2212BFDDD006255F7 /* libavformat.a */; };
+		14DC6FCB212BFDDD006255F7 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC3212BFDDD006255F7 /* libavutil.a */; };
+		14DC6FCC212BFDDD006255F7 /* libpostproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC4212BFDDD006255F7 /* libpostproc.a */; };
+		14DC6FCD212BFDDD006255F7 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC5212BFDDD006255F7 /* libavcodec.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		14DC6FA5212BFB0B006255F7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		14DC6FA7212BFB0B006255F7 /* TransCodeForAndroid */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TransCodeForAndroid; sourceTree = BUILT_PRODUCTS_DIR; };
+		14DC6FAA212BFB0B006255F7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		14DC6FB1212BFB56006255F7 /* CDemux.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CDemux.hpp; path = ../../../app/src/main/cpp/TransCode/CDemux.hpp; sourceTree = "<group>"; };
+		14DC6FB2212BFB56006255F7 /* CDemux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDemux.cpp; path = ../../../app/src/main/cpp/TransCode/CDemux.cpp; sourceTree = "<group>"; };
+		14DC6FB3212BFB56006255F7 /* CTransCode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CTransCode.hpp; path = ../../../app/src/main/cpp/TransCode/CTransCode.hpp; sourceTree = "<group>"; };
+		14DC6FB4212BFB56006255F7 /* CMux.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CMux.hpp; path = ../../../app/src/main/cpp/TransCode/CMux.hpp; sourceTree = "<group>"; };
+		14DC6FB5212BFB56006255F7 /* CTransCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTransCode.cpp; path = ../../../app/src/main/cpp/TransCode/CTransCode.cpp; sourceTree = "<group>"; };
+		14DC6FB6212BFB56006255F7 /* CMux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMux.cpp; path = ../../../app/src/main/cpp/TransCode/CMux.cpp; sourceTree = "<group>"; };
+		14DC6FBC212BFD90006255F7 /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogHelper.h; path = ../../../app/src/main/cpp/include/LogHelper.h; sourceTree = "<group>"; };
+		14DC6FBE212BFDDD006255F7 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavfilter.a"; sourceTree = "<group>"; };
+		14DC6FBF212BFDDD006255F7 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libswresample.a"; sourceTree = "<group>"; };
+		14DC6FC0212BFDDD006255F7 /* libavdevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavdevice.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavdevice.a"; sourceTree = "<group>"; };
+		14DC6FC1212BFDDD006255F7 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libswscale.a"; sourceTree = "<group>"; };
+		14DC6FC2212BFDDD006255F7 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavformat.a"; sourceTree = "<group>"; };
+		14DC6FC3212BFDDD006255F7 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavutil.a"; sourceTree = "<group>"; };
+		14DC6FC4212BFDDD006255F7 /* libpostproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpostproc.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libpostproc.a"; sourceTree = "<group>"; };
+		14DC6FC5212BFDDD006255F7 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavcodec.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		14DC6FA4212BFB0B006255F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14DC6FC6212BFDDD006255F7 /* libavfilter.a in Frameworks */,
+				14DC6FC7212BFDDD006255F7 /* libswresample.a in Frameworks */,
+				14DC6FC8212BFDDD006255F7 /* libavdevice.a in Frameworks */,
+				14DC6FC9212BFDDD006255F7 /* libswscale.a in Frameworks */,
+				14DC6FCA212BFDDD006255F7 /* libavformat.a in Frameworks */,
+				14DC6FCB212BFDDD006255F7 /* libavutil.a in Frameworks */,
+				14DC6FCC212BFDDD006255F7 /* libpostproc.a in Frameworks */,
+				14DC6FCD212BFDDD006255F7 /* libavcodec.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		14DC6F9E212BFB0B006255F7 = {
+			isa = PBXGroup;
+			children = (
+				14DC6FA9212BFB0B006255F7 /* TransCodeForAndroid */,
+				14DC6FA8212BFB0B006255F7 /* Products */,
+				14DC6FBD212BFDDC006255F7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		14DC6FA8212BFB0B006255F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14DC6FA7212BFB0B006255F7 /* TransCodeForAndroid */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		14DC6FA9212BFB0B006255F7 /* TransCodeForAndroid */ = {
+			isa = PBXGroup;
+			children = (
+				14DC6FBC212BFD90006255F7 /* LogHelper.h */,
+				14DC6FB2212BFB56006255F7 /* CDemux.cpp */,
+				14DC6FB1212BFB56006255F7 /* CDemux.hpp */,
+				14DC6FB6212BFB56006255F7 /* CMux.cpp */,
+				14DC6FB4212BFB56006255F7 /* CMux.hpp */,
+				14DC6FB5212BFB56006255F7 /* CTransCode.cpp */,
+				14DC6FB3212BFB56006255F7 /* CTransCode.hpp */,
+				14DC6FAA212BFB0B006255F7 /* main.cpp */,
+			);
+			path = TransCodeForAndroid;
+			sourceTree = "<group>";
+		};
+		14DC6FBD212BFDDC006255F7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14DC6FC5212BFDDD006255F7 /* libavcodec.a */,
+				14DC6FC0212BFDDD006255F7 /* libavdevice.a */,
+				14DC6FBE212BFDDD006255F7 /* libavfilter.a */,
+				14DC6FC2212BFDDD006255F7 /* libavformat.a */,
+				14DC6FC3212BFDDD006255F7 /* libavutil.a */,
+				14DC6FC4212BFDDD006255F7 /* libpostproc.a */,
+				14DC6FBF212BFDDD006255F7 /* libswresample.a */,
+				14DC6FC1212BFDDD006255F7 /* libswscale.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		14DC6FA6212BFB0B006255F7 /* TransCodeForAndroid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14DC6FAE212BFB0B006255F7 /* Build configuration list for PBXNativeTarget "TransCodeForAndroid" */;
+			buildPhases = (
+				14DC6FA3212BFB0B006255F7 /* Sources */,
+				14DC6FA4212BFB0B006255F7 /* Frameworks */,
+				14DC6FA5212BFB0B006255F7 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TransCodeForAndroid;
+			productName = TransCodeForAndroid;
+			productReference = 14DC6FA7212BFB0B006255F7 /* TransCodeForAndroid */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		14DC6F9F212BFB0B006255F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = LYH;
+				TargetAttributes = {
+					14DC6FA6212BFB0B006255F7 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 14DC6FA2212BFB0B006255F7 /* Build configuration list for PBXProject "TransCodeForAndroid" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 14DC6F9E212BFB0B006255F7;
+			productRefGroup = 14DC6FA8212BFB0B006255F7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				14DC6FA6212BFB0B006255F7 /* TransCodeForAndroid */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		14DC6FA3212BFB0B006255F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14DC6FAB212BFB0B006255F7 /* main.cpp in Sources */,
+				14DC6FB8212BFB56006255F7 /* CTransCode.cpp in Sources */,
+				14DC6FB9212BFB56006255F7 /* CMux.cpp in Sources */,
+				14DC6FB7212BFB56006255F7 /* CDemux.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		14DC6FAC212BFB0B006255F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		14DC6FAD212BFB0B006255F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		14DC6FAF212BFB0B006255F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "/Users/lyh/iLib/ffmpeg-4.0.2/build/include";
+				LIBRARY_SEARCH_PATHS = "/Users/lyh/iLib/ffmpeg-4.0.2/build/lib";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		14DC6FB0212BFB0B006255F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "/Users/lyh/iLib/ffmpeg-4.0.2/build/include";
+				LIBRARY_SEARCH_PATHS = "/Users/lyh/iLib/ffmpeg-4.0.2/build/lib";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		14DC6FA2212BFB0B006255F7 /* Build configuration list for PBXProject "TransCodeForAndroid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14DC6FAC212BFB0B006255F7 /* Debug */,
+				14DC6FAD212BFB0B006255F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14DC6FAE212BFB0B006255F7 /* Build configuration list for PBXNativeTarget "TransCodeForAndroid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14DC6FAF212BFB0B006255F7 /* Debug */,
+				14DC6FB0212BFB0B006255F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 14DC6F9F212BFB0B006255F7 /* Project object */;
+}

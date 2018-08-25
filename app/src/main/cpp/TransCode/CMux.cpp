@@ -72,6 +72,8 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
     this->des_gop_size=des_gop_size;
     this->des_max_b_frame=des_max_b_frame;
     this->des_thread_count=des_thread_count;
+    i_video_codec_ctx=Demux->get_i_video_codec_ctx();
+    i_audio_codec_ctx=Demux->get_i_audio_codec_ctx();
     i_video_stream_idx=Demux->get_video_stream_idx();
     i_audio_stream_idx=Demux->get_audio_stream_idx();
 
@@ -80,7 +82,7 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
 
     //    44100
     //aac
-    this->des_Audio_codecID = AV_CODEC_ID_AAC;//AV_CODEC_ID_AC3
+    this->des_Audio_codecID = des_Audio_codecID;//AV_CODEC_ID_AC3
     this->des_BitsPerSample=des_BitsPerSample;
 
 
@@ -100,14 +102,15 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
     this->audio_codec = nullptr ;
     this->video_codec = nullptr;
 
-    this->vbsf_aac_adtstoasc = nullptr;
-    this->audiofifo = nullptr;
 
+    this->audiofifo = nullptr;
+    this->o_video_codec_ctx=nullptr;
+    this->o_audio_codec_ctx=nullptr;
 
 
 
     int ret=0;
-    vbsf_aac_adtstoasc = NULL;
+
 
     /* allocate the output media context */
     avformat_alloc_output_context2(&o_fmt_ctx, NULL,NULL, o_Filename);
@@ -120,53 +123,48 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
         _isFail=true;
         return ;
     }
-    AVOutputFormat* ofmt = NULL;
-    ofmt = o_fmt_ctx->oformat;
-
-    /* open the output file, if needed */
-    if (!(ofmt->flags & AVFMT_NOFILE)){
-
-        ret= avio_open(&o_fmt_ctx->pb, o_Filename, AVIO_FLAG_WRITE);
-        if (ret < 0)
-        {
-            av_strerror(ret, szError, 256);
-            printf("Could not open '%s'\n", o_Filename);
-            LOGE("Could not open'%s'\n", szError);
-
-            if(this->c_sendInfo!= nullptr){
-                this-> c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
-            }
-            _isFail=true;
-            return ;
-        }
-    }
+    
     for (int i = 0; i < i_fmt_ctx->nb_streams; i++){
 
-        if (i_fmt_ctx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO){
+        if (i_fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO){
 
             o_video_stream_idx = i;//记录输出序号
+            
+//            //输出帧率等于输入
+//            double FrameRate = i_fmt_ctx->streams[i]->r_frame_rate.num /(double)i_fmt_ctx->streams[i]->r_frame_rate.den;
+//            this->des_FrameRate =(int)(FrameRate + 0.5);
 
-            double FrameRate = i_fmt_ctx->streams[i]->r_frame_rate.num /(double)i_fmt_ctx->streams[i]->r_frame_rate.den;
-            this->des_FrameRate =(int)(FrameRate + 0.5);
+             o_fmt_ctx->oformat->video_codec = des_Video_codecID;
 
-            ofmt->video_codec = des_Video_codecID;
             //匹配视频yuv格式
-            video_support(des_Video_codecID,&this->des_Video_pixelfromat);
+            video_support(this->des_Video_codecID,&this->des_Video_pixelfromat);
             //如果是视频需要编解码
-            if(this->des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codec->bit_rate ||
-               this->des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codec->width ||
-               this->des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codec->height ||
-               this->des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codec->codec_id ||
-               this->des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+            if(this->des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate ||
+               this->des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width ||
+               this->des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height ||
+               this->des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id)// ||
+//               this->des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+               
             {
                 o_video_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_VIDEO,&video_codec);
+                if (!o_video_st) {
+                    printf("Could not add_out_stream\n");
+                    LOGE("Could not add_out_stream\n");
+                    
+                    if(this->c_sendInfo!= nullptr){
+                        this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+                    _isFail=true;
+                    return ;
+                }
             }
             else
             {
                 //直接重封装就好了
+                video_directWrite=true;
+               
 
-
-                o_video_st = avformat_new_stream(o_fmt_ctx,i_fmt_ctx->streams[i_video_stream_idx]->codec->codec);
+                o_video_st = avformat_new_stream(o_fmt_ctx,i_video_codec_ctx->codec);
                 if (!o_video_st) {
                     if(this->c_sendInfo!= nullptr){
                         this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
@@ -174,113 +172,80 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
                     _isFail=true;
                     return ;
                 }
+                o_video_st->id = o_video_stream_idx;
+                o_video_st->time_base=i_fmt_ctx->streams[i_video_stream_idx]->time_base;
+                o_video_st->r_frame_rate=i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate;
                 //复制AVCodecContext的设置（Copy the settings of AVCodecContext）
-                ret = avcodec_copy_context(o_video_st->codec, i_fmt_ctx->streams[i_video_stream_idx]->codec);
-                if (ret < 0) {
-                    printf( "Failed to copy context from input to output stream codec context\n");
-                    LOGE("Failed to copy context from input to output stream codec context\n");
 
-                    if(this->c_sendInfo!= nullptr){
-                        this->c_sendInfo(2,"Failed to copy context from input to output stream codec context\n");//调试去看的话不懂为啥strTemp传过去非法的
-                    }
-                    _isFail=true;
-                    return ;
-                }
+                avcodec_parameters_from_context(o_fmt_ctx->streams[o_video_stream_idx]->codecpar, i_video_codec_ctx);//要设置codecpar，不然writetrail有问题
 
-                o_video_st->codec->codec_tag = 0;
-                if (o_fmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
-                    o_video_st->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
             }
 
+            
+            
+            
 
 
 
-        }else if (i_fmt_ctx->streams[i]->codec->codec_type == AVMEDIA_TYPE_AUDIO){
+        }else if (i_fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO){
             o_audio_stream_idx = i;
 
 
 
 
+            o_fmt_ctx->oformat->audio_codec= des_Audio_codecID;
 
-            ofmt->audio_codec = des_Audio_codecID;
             //匹配音频pcm格式
-            audio_support(des_Audio_codecID, &this->des_ChannelCount, &this->des_Layout,&this->des_Frequency, &this->des_BitsPerSample);
+            audio_support(this->des_Audio_codecID, &this->des_ChannelCount, &this->des_Layout,&this->des_Frequency, &this->des_BitsPerSample);
 
             //如果是音频需要编解码
-            if(this->des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codec->codec_id  ||
-               this->des_BitsPerSample != i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt||
-               this->des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate||
-               this->des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels)
+            if(this->des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
+               this->des_BitsPerSample != i_audio_codec_ctx->sample_fmt||
+               this->des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate||
+               this->des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
             {
                 o_audio_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_AUDIO,&audio_codec);
+                if (!o_audio_st) {
+                    printf("Could not add_out_stream\n");
+                    LOGE("Could not add_out_stream\n");
+                    
+                    if(this->c_sendInfo!= nullptr){
+                        this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+                    }
+                    _isFail=true;
+                    return ;
+                }
 
             }
             else
             {
 
 
-
+                audio_directWrite=true;
                 //输入输出格式一样只需要封装
-
-                o_audio_st = avformat_new_stream(i_fmt_ctx,i_fmt_ctx->streams[i_audio_stream_idx]->codec->codec);
-                if (!o_audio_st) {
+                
+                
+                o_audio_st = avformat_new_stream(o_fmt_ctx,i_audio_codec_ctx->codec);
+                if (!o_video_st) {
                     if(this->c_sendInfo!= nullptr){
-                        this->c_sendInfo(2,"Failed to new stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+                        this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
                     }
                     _isFail=true;
                     return ;
                 }
+                o_audio_st->id = o_audio_stream_idx;
+                o_audio_st->time_base=i_fmt_ctx->streams[i_audio_stream_idx]->time_base;
+
+        
                 //复制AVCodecContext的设置（Copy the settings of AVCodecContext）
-                ret = avcodec_copy_context(o_audio_st->codec, i_fmt_ctx->streams[i_audio_stream_idx]->codec);
-                if (ret < 0) {
-                    printf( "Failed to copy context from input to output stream codec context\n");
-                    if(this->c_sendInfo!= nullptr){
-                        this->c_sendInfo(2,"Failed to copy context from input to output stream codec context\n");//调试去看的话不懂为啥strTemp传过去非法的
-                    }
-                    _isFail=true;
-                    return ;
-                }
+                avcodec_parameters_from_context(o_fmt_ctx->streams[o_audio_stream_idx]->codecpar, i_audio_codec_ctx);//要设置codecpar，不然writetrail有问题
 
-                o_audio_st->codec->codec_tag = 0;
-                if (o_fmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
-                    o_audio_st->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
 
 
             }
-            //android 下面失败
-//            if ((strstr(o_fmt_ctx->oformat->name, "flv") != NULL) ||
-//                (strstr(o_fmt_ctx->oformat->name, "mp4") != NULL) ||
-//                (strstr(o_fmt_ctx->oformat->name, "mov") != NULL) ||
-//                (strstr(o_fmt_ctx->oformat->name, "3gp") != NULL))
-//            {
-
-//                if (o_audio_st->codec->codec_id == AV_CODEC_ID_AAC)
-//                {
-//
-//                    audio_filter = av_bsf_get_by_name("aac_adtstoasc");
-//                    if(!audio_filter)
-//                    {
-//                        av_log(NULL,AV_LOG_ERROR,"Unkonw bitstream filter");
-//                        LOGE("Unkonw bitstream filter");
-//                        return ;
-//                    }
-//
-//                    ret = av_bsf_alloc(audio_filter, &audio_bsf_ctx);
-//                    if(!ret){
-//                        av_log(NULL,AV_LOG_ERROR,"av_bsf_alloc");
-//                        LOGE("av_bsf_alloc");
-//                        return ;
-//                    }
-//
-//                    vbsf_aac_adtstoasc =  av_bitstream_filter_init("aac_adtstoasc");
-//                    if(vbsf_aac_adtstoasc == NULL)
-//                    {
-//                        return ;
-//                    }
-//                }
-//            }
+  
 
 
         }
@@ -290,65 +255,37 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
 
     av_dump_format(o_fmt_ctx, 0, o_Filename, 1);
 
-    if (o_video_stream_idx != -1)//如果存在视频
-    {
-        //如果是视频需要编解码
-        if(this->des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codec->bit_rate ||
-           this->des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codec->width ||
-           this->des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codec->height ||
-           this->des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codec->codec_id ||
-           this->des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+    
+    
+    
+    AVOutputFormat* ofmt = NULL;
+    ofmt = o_fmt_ctx->oformat;
+    
+    /* open the output file, if needed */
+    if (!(ofmt->flags & AVFMT_NOFILE)){
+        
+        ret= avio_open(&o_fmt_ctx->pb, o_Filename, AVIO_FLAG_WRITE);
+        if (ret < 0)
         {
-            //解码初始化
-            ret = Demux->openDecode(i_video_stream_idx);
-            if(ret!=1){
-                //打开失败
-                if(this->c_sendInfo!= nullptr){
-                    this->c_sendInfo(2,"Failed to openDecode\n");
-                }
+            av_strerror(ret, szError, 256);
+            printf("Could not open '%s'\n", o_Filename);
+            LOGE("Could not open'%s'\n", szError);
+            
+            if(this->c_sendInfo!= nullptr){
+                this-> c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
             }
-            //编码初始化
-            ret = openCode(o_video_stream_idx);
-            if(ret!=1){
-                //打开失败
-                if(this->c_sendInfo!= nullptr){
-                    this->c_sendInfo(2,"Failed to openCode\n");
-                }
-            }
+            _isFail=true;
+            return ;
         }
     }
-    //如果是音频需要编解码
-    if(o_audio_stream_idx != -1)//如果存在音频
-    {
-        if(this->des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codec->codec_id  ||
-           this->des_BitsPerSample != i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt||
-           this->des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate||
-           this->des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels)
-        {
-            //解码初始化
-            ret = Demux->openDecode(i_audio_stream_idx);
-            if(ret!=1){
-                //打开失败
-                if(this->c_sendInfo!= nullptr){
-                    this->c_sendInfo(2,"Failed to openDecode\n");
-                }
-            }
-            //编码初始化
-            ret = openCode(o_audio_stream_idx);
-            if(ret!=1){
-                //打开失败
-                if(this->c_sendInfo!= nullptr){
-                    this->c_sendInfo(2,"Failed to openCode\n");
-                }
-            }
-        }
-    }
+    
      ret = avformat_write_header(o_fmt_ctx, NULL);//会设置流的时基（视频90000、音频sample_rate）
     if (ret != 0)
     {
-        printf("Call avformat_write_header function failed.\n");
+        sprintf(szError,"Call avformat_write_header function failed:%s.\n", av_err2str(ret));
+
         if(this->c_sendInfo!= nullptr){
-            this->c_sendInfo(2,"Call avformat_write_header function failed.\n");//调试去看的话不懂为啥strTemp传过去非法的
+            this->c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
         }
         _isFail=true;
         return ;
@@ -362,7 +299,7 @@ CMux:: ~CMux(){
     if(!this->o_fmt_ctx){
         return;
     }
-    int i = 0;
+    
     int nRet = av_write_trailer(o_fmt_ctx);
     if (nRet < 0)
     {
@@ -374,11 +311,7 @@ CMux:: ~CMux(){
             c_sendInfo(2,szError);//调试去看的话不懂为啥strTemp传过去非法的
         }
     }
-    if (vbsf_aac_adtstoasc !=NULL)
-    {
-        av_bitstream_filter_close(vbsf_aac_adtstoasc);
-        vbsf_aac_adtstoasc = NULL;
-    }
+
     av_dump_format(o_fmt_ctx, -1, o_Filename, 1);
 
     if (i_video_stream_idx != -1)//如果存在视频
@@ -386,40 +319,39 @@ CMux:: ~CMux(){
 
 
         //如果是视频需要编解码
-        if(des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codec->bit_rate ||
-           des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codec->width ||
-           des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codec->height ||
-           des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codec->codec_id ||
+        if(des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate ||
+           des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width ||
+           des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height ||
+           des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id ||
            des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
         {
             Demux->closeDecode(i_video_stream_idx);
-            closeCode(o_video_stream_idx);
+//            closeCode(o_video_stream_idx);
         }
     }
     if(i_audio_stream_idx != -1)//如果存在音频
     {
         //如果是音频需要编解码
-        if(des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codec->codec_id  ||
-           des_BitsPerSample != i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt||
-           des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate||
-           des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels)
+        if(des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
+           des_BitsPerSample != i_audio_codec_ctx->sample_fmt||
+           des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate||
+           des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
         {
             Demux->closeDecode(i_audio_stream_idx);
-            closeCode(o_audio_stream_idx);
+//            closeCode(o_audio_stream_idx);
         }
     }
-    /* Free the streams. */
-    for (i = 0; i < o_fmt_ctx->nb_streams; i++)
-    {
-        av_freep(&o_fmt_ctx->streams[i]->codec);
-        av_freep(&o_fmt_ctx->streams[i]);
-    }
+    
+    avcodec_free_context(&o_video_codec_ctx);
+    avcodec_free_context(&o_audio_codec_ctx);
+
     if (!(o_fmt_ctx->oformat->flags & AVFMT_NOFILE))
     {
         /* Close the output file. */
-        avio_close(o_fmt_ctx->pb);
+        avio_closep(&o_fmt_ctx->pb);
     }
-    av_free(o_fmt_ctx);
+    avformat_free_context(o_fmt_ctx);//不用free stream，这个函数会帮忙关
+   
 
 }
 
@@ -440,7 +372,7 @@ int CMux::audio_support(enum AVCodecID codecId,int *channel,uint64_t * layout,in
         int j = 0;
         while(0 != codec->channel_layouts[j])
         {
-            printf("pCodec->channel_layouts[j] : %d\n",codec->channel_layouts[j]);
+            printf("pCodec->channel_layouts[j] : %llu\n",codec->channel_layouts[j]);
             ++j;
         }
         while(0 != codec->channel_layouts[i])
@@ -456,6 +388,23 @@ int CMux::audio_support(enum AVCodecID codecId,int *channel,uint64_t * layout,in
         {
             *layout = codec->channel_layouts[i-1];
             *channel = av_get_channel_layout_nb_channels(*layout);
+        }
+    }else{
+        if(i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels > 2)
+        {
+            *layout = av_get_default_channel_layout(des_ChannelCount);
+        }
+        else
+        {
+            *channel  = i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels;
+            if (i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channel_layout == 0)
+            {
+                *layout = av_get_default_channel_layout(i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels);
+            }
+            else
+            {
+                *layout = i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channel_layout;
+            }
         }
     }
 
@@ -551,7 +500,7 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
     AVCodecContext* output_codec_context = NULL;
     AVStream * in_stream = NULL;
     AVStream * output_stream = NULL;
-    AVCodecID codecID;
+    AVCodecID codecID=AV_CODEC_ID_NONE;
 
     switch (codec_type_t)
     {
@@ -565,12 +514,8 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
             break;
         default:
             break;
+        
     }
-
-
-
-
-
 
     /* find the encoder */
     *codec = avcodec_find_encoder(codecID);
@@ -586,67 +531,67 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
     }
 
     output_stream->id = o_fmt_ctx->nb_streams - 1;
-    output_codec_context = output_stream->codec;
+    
+    
+
+    output_codec_context = avcodec_alloc_context3(*codec);
 
 
-    output_stream->time_base  = in_stream->time_base;//编码时 avformat_write_header()后可能被系统改变（如90000），改不改取决于格式，不设置也由系统设置
+
+
+//    output_stream->time_base  = in_stream->time_base;//编码时 avformat_write_header()后可能被系统改变（如90000），改不改取决于格式，不设置也由系统设置
 
     switch (codec_type_t)
     {
         case AVMEDIA_TYPE_AUDIO:
-
+            o_audio_codec_ctx=output_codec_context;
 
             output_codec_context->codec_id = des_Audio_codecID;
             output_codec_context->codec_type = codec_type_t;
-            output_stream->start_time = 0;
-            output_codec_context->sample_rate = i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate;//m_dwFrequency;
+
             output_codec_context->sample_rate =des_Frequency;
-            if(i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels > 2)
-            {
-                output_codec_context->channels = des_ChannelCount;
-                output_codec_context->channel_layout = av_get_default_channel_layout(des_ChannelCount);
-            }
-            else
-            {
-                output_codec_context->channels  = i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels;
-                if (i_fmt_ctx->streams[i_audio_stream_idx]->codec->channel_layout == 0)
-                {
-                    output_codec_context->channel_layout = av_get_default_channel_layout(i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels);
-                }
-                else
-                {
-                    output_codec_context->channel_layout = i_fmt_ctx->streams[i_audio_stream_idx]->codec->channel_layout;
-                }
-            }
+            output_codec_context->channels = des_ChannelCount;
+            output_codec_context->channel_layout =des_Layout;
+
             //这个码率有些编码器不支持特别大，例如wav的码率是1411200 比aac大了10倍多
             output_codec_context->bit_rate = 128000;//icodec->streams[audio_stream_idx]->codec->bit_rate;
+            
             //            output_codec_context->frame_size = audio_frame_size;
             output_codec_context->sample_fmt  = des_BitsPerSample; //样本
-            //             output_codec_context->sample_fmt = (*codec)->sample_fmts[0];
-            //            m_dwBitsPerSample=  output_codec_context->sample_fmt ;
             output_codec_context->block_align = 0;
 
 
-            //查看音频支持的声道，采样率，样本
-            //            audio_support(*codec,&output_codec_context->channels,
-            //                          (int *)&output_codec_context->channel_layout,
-            //                          &output_codec_context->sample_rate,
-            //                          &output_codec_context->sample_fmt);
-            //            m_dwChannelCount = output_codec_context->channels;
-            //            m_dwFrequency = output_codec_context->sample_rate;
-            //            m_dwBitsPerSample = output_codec_context->sample_fmt;
             break;
         case AVMEDIA_TYPE_VIDEO:
-            AVRational r_frame_rate_t;
-            r_frame_rate_t.num = 100;
-            r_frame_rate_t.den = (int)(des_FrameRate * 100);
-            output_codec_context->time_base = in_stream->codec->time_base;
-            //            output_stream->time_base  = in_stream->time_base;
-            output_stream->r_frame_rate.num = r_frame_rate_t.den;
-            output_stream->r_frame_rate.den = r_frame_rate_t.num;
+            o_video_codec_ctx=output_codec_context;
+            
+            /////////////
+            //            output_codec_context->framerate.den = 30;
+            //            output_codec_context->framerate.num = 1;// {30, 1};
+            //            output_codec_context->time_base.num = 1;
+            //            output_codec_context->time_base.den = 30;
+            
+            ////////////
+            output_codec_context->framerate.den = des_FrameRate;
+            output_codec_context->framerate.num = 1;// {30, 1};
+            output_codec_context->time_base.num = 1;
+            output_codec_context->time_base.den = des_FrameRate;
+
+
+//            output_codec_context->time_base = av_inv_q(i_video_codec_ctx->framerate);
+            output_codec_context->framerate = i_video_codec_ctx->framerate;
+
+//             output_codec_context->time_base =i_video_codec_ctx->time_base;//0/1打开编码器失败
+//            output_stream->time_base = av_inv_q(i_video_codec_ctx->framerate);
+            
+            
+
+
+            
+
             output_codec_context->codec_id = des_Video_codecID;
             output_codec_context->codec_type = codec_type_t;
-            output_stream->start_time = 0;
+            output_codec_context->bit_rate = i_video_codec_ctx->bit_rate;//icodec->streams[audio_stream_idx]->codec->bit_rate;
             output_codec_context->pix_fmt = des_Video_pixelfromat;
             output_codec_context->width = des_Width;
             output_codec_context->height = des_Height;
@@ -663,49 +608,81 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
             output_codec_context->qmin = 20; //调节清晰度和编码速度 //这个值调节编码后输出数据量越大输出数据量越小，越大编码速度越快，清晰度越差
             output_codec_context->qmax = 40; //调节清晰度和编码速度
             output_codec_context->qcompress = 0.6;
-            //            //查看视频支持的yuv格式
-            //            video_support(*codec,&output_codec_context->pix_fmt);
-            //            video_pixelfromat = output_codec_context->pix_fmt;
+
             break;
         default:
             break;
     }
+
     //这个很重要，要么纯复用解复用，不做编解码写头会失败,
     //另或者需要编解码如果不这样，生成的文件没有预览图，还有添加下面的header失败，置0之后会重新生成extradata
     output_codec_context->codec_tag = 0;
-    //if(! strcmp( output_format_context-> oformat-> name,  "mp4" ) ||
-    //    !strcmp (output_format_context ->oformat ->name , "mov" ) ||
-    //    !strcmp (output_format_context ->oformat ->name , "3gp" ) ||
-    //    !strcmp (output_format_context ->oformat ->name , "flv" ))
+ 
     if(AVFMT_GLOBALHEADER & o_fmt_ctx->oformat->flags)
     {
         output_codec_context->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
     }
+    
+    
+    ////////////////////////////////////////
+    int error = Demux->openDecode(output_stream->id);
+    if(error!=1){
+        //打开失败
+        printf("Could not openDecode\n");
+        LOGE("Could not openDecodem\n");
+        return nullptr;
+    }
+    error = openCode(output_stream->id);//打开编码器要放在copyfromctx之前（打开会给ctx赋值）
+    if(error!=1){
+        //打开失败
+        printf("Could not openCode\n");
+        LOGE("Could not openCode\n");
+        return nullptr;
+    }
+    ////////////////////////////////////////
+    
+   
+    
+    error = avcodec_parameters_from_context(output_stream->codecpar, output_codec_context);
+    if (error < 0) {
+        fprintf(stderr, "Could not initialize stream parameters\n");
+        return nullptr;
+    }
+
     return output_stream;
 }
 
 
 int CMux::openCode(int stream_idx)
 {
+     //avcodec_open2同时也Initialize the AVCodecContext，所以复制ctx到ctxpra之前要先做（会给ctx的extra分配东西，这些是h264封装mp4等特殊格式需要的nalu头，不然转码出来的结果没有pps,sps,(codecpra里也有extradata)）
     AVCodecContext *CodecCtx = NULL;
 
     if (stream_idx == o_audio_stream_idx)
     {
-        CodecCtx = o_audio_st->codec;
+        CodecCtx = o_audio_codec_ctx;
         //打开编码器
         int nRet = avcodec_open2(CodecCtx, audio_codec, NULL);
         if (nRet < 0)
         {
             printf("Could not open encoder\n");
-            return 0;
+            return -1;
         }
     }
     else if (stream_idx == o_video_stream_idx)
     {
 
-        CodecCtx = o_video_st->codec;
+        CodecCtx = o_video_codec_ctx;
+
+
+        AVDictionary *opts = NULL;
+
+        av_dict_set(&opts, "profile", "baseline", 0);
+        av_dict_set(&opts, "threads", "2", 0);
+
+
         //打开编码器
-        int nRet = avcodec_open2(CodecCtx, video_codec, NULL);
+        int nRet = avcodec_open2(CodecCtx, video_codec, &opts);
         if (nRet < 0)
         {
             printf("Could not open encoder\n");
@@ -722,32 +699,36 @@ int CMux:: closeCode(int stream_idx)
 
     if (stream_idx == o_audio_stream_idx)
     {
-        CodecCtx = o_audio_st->codec;
+        CodecCtx = o_audio_codec_ctx;
     }
     else if (stream_idx == o_video_stream_idx)
     {
-        CodecCtx = o_video_st->codec;
+        CodecCtx = o_video_codec_ctx;
     }
-    avcodec_close(CodecCtx);
+    avcodec_free_context(&CodecCtx);
+  
     return 1;
 }
 
 
 void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
-    int64_t pts = 0, dts = 0;
+    
     int nRet = -1;
 
     if(type == AVMEDIA_TYPE_VIDEO)
     {
 #ifdef STREAM_TB
 
-        nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt_t);
+        nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
         if (nRet != 0)
         {
             printf("error av_interleaved_write_frame _ video\n");
         }
 #else
 
+       
+
+    
 
 
         AVPacket videopacket_t;//备份一下，应为av_interleaved_write_frame会释放掉
@@ -761,6 +742,8 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
         videopacket_t.data = pkt.data;
         videopacket_t.size = pkt.size;
 
+        
+       
 
 
         nRet = av_interleaved_write_frame(o_fmt_ctx, &videopacket_t);
@@ -781,42 +764,10 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
         audiopacket_t.stream_index =o_audio_stream_idx; //这里add_out_stream顺序有影响
         audiopacket_t.data = pkt.data;
         audiopacket_t.size = pkt.size;
+        audiopacket_t.pts=pkt.pts;
+        audiopacket_t.dts=pkt.dts;
 
-        // android下失败
-        //添加过滤器
-//        if(! strcmp(o_fmt_ctx->oformat-> name,  "mp4" ) ||
-//           !strcmp (o_fmt_ctx ->oformat ->name , "mov" ) ||
-//           !strcmp (o_fmt_ctx ->oformat ->name , "3gp" ) ||
-//           !strcmp (o_fmt_ctx ->oformat ->name , "flv" ))
-//        {
-//            if (o_audio_st->codec->codec_id == AV_CODEC_ID_AAC)
-//            {
-//                if (vbsf_aac_adtstoasc != NULL)
-//                {
-//                    AVPacket filteredPacket = audiopacket_t;
-//                    int a = av_bitstream_filter_filter(vbsf_aac_adtstoasc,
-//                                                       o_audio_st->codec, NULL,&filteredPacket.data, &filteredPacket.size,
-//                                                       audiopacket_t.data, audiopacket_t.size, audiopacket_t.flags & AV_PKT_FLAG_KEY);
-//                    if (a >  0)
-//                    {
-//                        av_free_packet(&audiopacket_t);
-//
-//                        audiopacket_t = filteredPacket;
-//                    }
-//                    else if (a == 0)
-//                    {
-//                        audiopacket_t = filteredPacket;
-//                    }
-//                    else if (a < 0)
-//                    {
-//                        fprintf(stderr, "%s failed for stream %d, codec %s",
-//                                vbsf_aac_adtstoasc->filter->name,audiopacket_t.stream_index,o_audio_st->codec->codec ?  o_audio_st->codec->codec->name : "copy");
-//                        av_free_packet(&audiopacket_t);
-//
-//                    }
-//                }
-//            }
-//        }
+
         nRet = av_interleaved_write_frame(o_fmt_ctx, &audiopacket_t);
         if (nRet != 0)
         {
@@ -829,91 +780,131 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
 
 int CMux:: code_and_write(AVMediaType type,AVFrame * frame)
 {
-    int nRet=0;
+  
     AVCodecContext *CodecCtx = NULL;
     AVPacket pkt;
     av_init_packet(&pkt);
     pkt.data = NULL; // packet data will be allocated by the encoder
     pkt.size = 0;
-    int frameFinished = 0 ;
-//    int i_audio_stream_idx=Demux->get_audio_stream_idx();
-//    int i_video_stream_idx=Demux->get_video_stream_idx();
+
+
     if (type == AVMEDIA_TYPE_AUDIO)
     {
 
-        CodecCtx = o_audio_st->codec;
-        //如果进和出的的声道，样本，采样率不同,需要重采样
-        if(i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt != des_BitsPerSample ||
-           i_fmt_ctx->streams[i_audio_stream_idx]->codec->channels != des_ChannelCount ||
-           i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_rate != des_Frequency)
+        CodecCtx = o_audio_codec_ctx;
+
+        AVFrame * pFrameResample = av_frame_alloc();
+        pFrameResample->nb_samples     = CodecCtx->frame_size;
+        pFrameResample->channel_layout = CodecCtx->channel_layout;
+        pFrameResample->channels       = CodecCtx->channels;
+        pFrameResample->format         = CodecCtx->sample_fmt;
+        pFrameResample->sample_rate    = CodecCtx->sample_rate;
+        int error = 0;
+        if ((error = av_frame_get_buffer(pFrameResample, 0)) < 0)
         {
-            int64_t pts_t = frame->pts;
+            av_frame_free(&pFrameResample);
+            return error;
+        }
+
+        while (av_audio_fifo_size(audiofifo) >= pFrameResample->nb_samples) //取出写入的未读的包
+        {
+            av_audio_fifo_read(audiofifo,(void **)pFrameResample->data,pFrameResample->nb_samples);
 
 
-            AVFrame * pFrameResample = av_frame_alloc();
 
-            pFrameResample->nb_samples     = CodecCtx->frame_size;
-            pFrameResample->channel_layout = CodecCtx->channel_layout;
-            pFrameResample->channels       = CodecCtx->channels;
-            pFrameResample->format         = CodecCtx->sample_fmt;
-            pFrameResample->sample_rate    = CodecCtx->sample_rate;
-            int error = 0;
-            if ((error = av_frame_get_buffer(pFrameResample, 0)) < 0)
-            {
-                av_frame_free(&pFrameResample);
+            pFrameResample->pts=frame->pts;
+
+
+        
+        
+        
+        
+            int error = avcodec_send_frame(CodecCtx, pFrameResample);
+            /* The encoder signals that it has nothing more to encode. */
+            if (error == AVERROR_EOF) {
+                
+            } else if (error < 0) {
+                fprintf(stderr, "Could not send packet for encoding (error '%s')\n",av_err2str(error));
                 return error;
             }
-
-            while (av_audio_fifo_size(audiofifo) >= pFrameResample->nb_samples) //取出写入的未读的包
-            {
-                av_audio_fifo_read(audiofifo,(void **)pFrameResample->data,pFrameResample->nb_samples);
-
-
-
-                pFrameResample->pts=frame->pts;
-
-                nRet =avcodec_encode_audio2(CodecCtx,&pkt,pFrameResample,&frameFinished);
-                if (nRet>=0 && frameFinished)
-                {
-                    write_frame(AVMEDIA_TYPE_AUDIO,pkt);
-                    av_free_packet(&pkt);
-                }
-            }
-            if (pFrameResample)
-            {
-                av_frame_unref(pFrameResample);
-
-                av_frame_free(&pFrameResample);
-                pFrameResample = NULL;
-            }
-
-
-        }
-        else
-        {
-            nRet = avcodec_encode_audio2(CodecCtx,&pkt,frame,&frameFinished);
-            if (nRet>=0 && frameFinished)
-            {
+            
+            /* Receive one encoded frame from the encoder. */
+            error = avcodec_receive_packet(CodecCtx, &pkt);
+            /* If the encoder asks for more data to be able to provide an
+             * encoded frame, return indicating that no data is present. */
+            if (error == AVERROR(EAGAIN)) {
+                
+                
+                /* If the last frame has been encoded, stop encoding. */
+            } else if (error == AVERROR_EOF) {
+                
+                
+            } else if (error < 0) {
+                fprintf(stderr, "Could not encode frame (error '%s')\n",av_err2str(error));
+                
+                /* Default case: Return encoded data. */
+            } else {
+                
+                //                pkt.stream_index=o_audio_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+                
                 write_frame(AVMEDIA_TYPE_AUDIO,pkt);
-                av_free_packet(&pkt);
+                av_packet_unref(&pkt);
             }
         }
-        //free
+        if (pFrameResample)
+        {
+            av_frame_unref(pFrameResample);
+
+            av_frame_free(&pFrameResample);
+            pFrameResample = NULL;
+        }
+
 
 
 
     }
     else if (type == AVMEDIA_TYPE_VIDEO)
     {
-        CodecCtx = o_video_st->codec;
-        avcodec_encode_video2(CodecCtx,&pkt,frame,&frameFinished);
+        CodecCtx = o_video_codec_ctx;
+        
 
-        pkt.stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
-        if (frameFinished)
-        {
-            write_frame(AVMEDIA_TYPE_VIDEO,pkt);
-            av_free_packet(&pkt);
+        
+        
+
+        
+        
+        int error = avcodec_send_frame(CodecCtx, frame);
+        /* The encoder signals that it has nothing more to encode. */
+        if (error == AVERROR_EOF) {
+            
+        } else if (error < 0) {
+            fprintf(stderr, "Could not send packet for encoding (error '%s')\n",av_err2str(error));
+            return error;
         }
+        
+        /* Receive one encoded frame from the encoder. */
+        error = avcodec_receive_packet(CodecCtx, &pkt);
+        /* If the encoder asks for more data to be able to provide an
+         * encoded frame, return indicating that no data is present. */
+        if (error == AVERROR(EAGAIN)) {
+            
+            
+            /* If the last frame has been encoded, stop encoding. */
+        } else if (error == AVERROR_EOF) {
+           
+            
+        } else if (error < 0) {
+            fprintf(stderr, "Could not encode frame (error '%s')\n",av_err2str(error));
+          
+            /* Default case: Return encoded data. */
+        } else {
+            
+            pkt.stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+       
+            write_frame(AVMEDIA_TYPE_VIDEO,pkt);
+            av_packet_unref(&pkt);
+        }
+        return error;
 
     }
     return 1;

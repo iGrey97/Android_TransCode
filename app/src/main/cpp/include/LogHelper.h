@@ -9,7 +9,7 @@
 #ifndef mtmv_LogHelper_h
 #define mtmv_LogHelper_h
 
-#define DEBUG_NATVIE
+//#define DEBUG_NATVIE
 
 #ifdef DEBUG_NATVIE
 

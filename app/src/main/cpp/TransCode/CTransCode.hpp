@@ -31,7 +31,6 @@ extern "C"
 #include "libavutil/opt.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/samplefmt.h"
-//#include "libavdevice/avdevice.h"
 #include "libavfilter/avfilter.h"
 #include "libavutil/error.h"
 #include "libavutil/mathematics.h"
@@ -77,16 +76,20 @@ private:
 
     uint8_t * pOutput_buf ;
     
+    AVFormatContext *o_fmt_ctx;
+    AVCodecContext *o_video_codec_ctx;
+    AVCodecContext *o_audio_codec_ctx;
     AVStream * o_video_st;
     AVStream * o_audio_st;
-    
-    int i_video_stream_idx;
-    int i_audio_stream_idx;
-    AVFormatContext *i_fmt_ctx;
-    
     int o_video_stream_idx;
     int o_audio_stream_idx;
-    AVFormatContext *o_fmt_ctx;
+    
+    AVFormatContext *i_fmt_ctx;
+    AVCodecContext *i_video_codec_ctx;
+    AVCodecContext *i_audio_codec_ctx;
+    int i_video_stream_idx;
+    int i_audio_stream_idx;
+   
     
     int des_Width;
     int des_Height;
@@ -101,6 +104,9 @@ private:
     int des_channelCount;
     AVCodecID audio_codecID;
     
+    
+    bool video_directWrite=false;
+    bool audio_directWrite=false;
     
 };
 };
