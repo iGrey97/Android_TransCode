@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.039822"
+            timestampString = "557053566.87237"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.040324"
+            timestampString = "557053566.872716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "169"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.040709"
+            timestampString = "557053566.872836"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "161"
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.664019"
+            timestampString = "557053566.872947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
             landmarkName = "CTransCode:: init_pcm_resample(AVFrame *in_frame, AVFrame *out_frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.6648819"
+            timestampString = "557053566.8734781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "808"
-            endingLineNumber = "808"
+            startingLineNumber = "967"
+            endingLineNumber = "967"
             landmarkName = "CMux:: code_and_write(AVMediaType type,AVFrame * frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.66523"
+            timestampString = "557053566.875157"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "CTransCode:: init_pcm_resample(AVFrame *in_frame, AVFrame *out_frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.665994"
+            timestampString = "557053566.875532"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "559"
-            endingLineNumber = "559"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6663539"
+            timestampString = "557053566.8771991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.667208"
+            timestampString = "557053566.877624"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
             landmarkName = "CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *out_frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6678849"
+            timestampString = "557053566.877996"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *out_frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.668519"
+            timestampString = "557053566.878359"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
             landmarkName = "CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *out_frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.042608"
+            timestampString = "557053566.878722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "105"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.04294"
+            timestampString = "557053566.878832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "95"
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.669179"
+            timestampString = "557053566.878935"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "690"
-            endingLineNumber = "690"
+            startingLineNumber = "694"
+            endingLineNumber = "694"
             landmarkName = "CMux::openCode(int stream_idx)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.669449"
+            timestampString = "557053566.880308"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "873"
-            endingLineNumber = "873"
+            startingLineNumber = "1032"
+            endingLineNumber = "1032"
             landmarkName = "CMux:: code_and_write(AVMediaType type,AVFrame * frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.669708"
+            timestampString = "557053566.881578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "904"
-            endingLineNumber = "904"
+            startingLineNumber = "1063"
+            endingLineNumber = "1063"
             landmarkName = "CMux:: code_and_write(AVMediaType type,AVFrame * frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.669953"
+            timestampString = "557053566.8828"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "459"
+            endingLineNumber = "459"
             landmarkName = "CTransCode:: flush_encoder(int stream_index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -278,15 +278,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.670534"
+            timestampString = "557053566.883172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
             landmarkName = "CMux:: ~CMux()"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.670784"
+            timestampString = "557053566.884396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "CTransCode::yuv_conversion(AVFrame * pinframe,AVFrame * poutframe)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6713639"
+            timestampString = "557053566.8847589"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
             landmarkName = "CTransCode::yuv_conversion(AVFrame * pinframe,AVFrame * poutframe)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.671931"
+            timestampString = "557053566.885116"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *out_frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.672525"
+            timestampString = "557053566.885453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "CTransCode::yuv_conversion(AVFrame * pinframe,AVFrame * poutframe)"
             landmarkType = "7">
          </BreakpointContent>
@@ -358,15 +358,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.673081"
+            timestampString = "557053566.8857861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "542"
-            endingLineNumber = "542"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.673337"
+            timestampString = "557053566.886978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "903"
-            endingLineNumber = "903"
+            startingLineNumber = "1062"
+            endingLineNumber = "1062"
             landmarkName = "CMux:: code_and_write(AVMediaType type,AVFrame * frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.6735899"
+            timestampString = "557053566.888119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "901"
-            endingLineNumber = "901"
+            startingLineNumber = "1060"
+            endingLineNumber = "1060"
             landmarkName = "CMux:: code_and_write(AVMediaType type,AVFrame * frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6738271"
+            timestampString = "557053566.889273"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.674381"
+            timestampString = "557053566.889676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.674917"
+            timestampString = "557053566.890048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
             landmarkName = "CTransCode:: flush_encoder(int stream_index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -454,15 +454,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6753891"
+            timestampString = "557053566.890399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
+            startingLineNumber = "469"
+            endingLineNumber = "469"
             landmarkName = "CTransCode:: flush_encoder(int stream_index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,7 +474,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.046394"
+            timestampString = "557053566.89073"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "93"
@@ -490,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.675908"
+            timestampString = "557053566.890825"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
+            startingLineNumber = "622"
+            endingLineNumber = "622"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -505,24 +505,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TransCodeForAndroid/main.cpp"
-            timestampString = "556856341.676128"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.047829"
+            timestampString = "557053566.8918819"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "18"
@@ -538,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.67626"
+            timestampString = "557053566.89197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.676747"
+            timestampString = "557053566.8922859"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "728"
-            endingLineNumber = "728"
+            startingLineNumber = "732"
+            endingLineNumber = "732"
             landmarkName = "CMux:: write_frame(AVMediaType type,AVPacket &amp;pkt)"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.6769561"
+            timestampString = "557053566.89341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.677153"
+            timestampString = "557053566.894539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "595"
-            endingLineNumber = "595"
+            startingLineNumber = "599"
+            endingLineNumber = "599"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.677341"
+            timestampString = "557053566.895515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6777821"
+            timestampString = "557053566.895839"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -634,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.678213"
+            timestampString = "557053566.896134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -650,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.678616"
+            timestampString = "557053566.896421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -666,11 +650,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.679021"
+            timestampString = "557053566.896704"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -682,11 +666,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.679422"
+            timestampString = "557053566.896993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "849"
-            endingLineNumber = "849"
+            startingLineNumber = "1008"
+            endingLineNumber = "1008"
             landmarkName = "CMux:: code_and_write(AVMediaType type,AVFrame * frame)"
             landmarkType = "7">
          </BreakpointContent>
@@ -698,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.679598"
+            timestampString = "557053566.897912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "557"
-            endingLineNumber = "557"
+            startingLineNumber = "561"
+            endingLineNumber = "561"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -714,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.67977"
+            timestampString = "557053566.898725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "759"
-            endingLineNumber = "759"
+            startingLineNumber = "763"
+            endingLineNumber = "763"
             landmarkName = "CMux:: write_frame(AVMediaType type,AVPacket &amp;pkt)"
             landmarkType = "7">
          </BreakpointContent>
@@ -730,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.6799099"
+            timestampString = "557053566.899485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "520"
-            endingLineNumber = "520"
+            startingLineNumber = "524"
+            endingLineNumber = "524"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -746,11 +730,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.68005"
+            timestampString = "557053566.900232"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "664"
-            endingLineNumber = "664"
+            startingLineNumber = "668"
+            endingLineNumber = "668"
             landmarkName = "CMux::openCode(int stream_idx)"
             landmarkType = "7">
          </BreakpointContent>
@@ -762,7 +746,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
-            timestampString = "556724092.050614"
+            timestampString = "557053566.900978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "180"
@@ -778,11 +762,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.680225"
+            timestampString = "557053566.901064"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -794,11 +778,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.680355"
+            timestampString = "557053566.901772"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -810,11 +794,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.680487"
+            timestampString = "557053566.902477"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "CTransCode::CTransCode(void (*c_sendInfo)(int what, string info),CDemux *Demux,CMux *Mux,int sws_flags)"
             landmarkType = "7">
          </BreakpointContent>
@@ -826,11 +810,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.680845"
+            timestampString = "557053566.902745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -842,11 +826,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.680971"
+            timestampString = "557053566.9034179"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -858,11 +842,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.6813149"
+            timestampString = "557053566.9036731"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -874,11 +858,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.681669"
+            timestampString = "557053566.903919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -890,11 +874,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682078"
+            timestampString = "557053566.904173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -906,11 +890,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682211"
+            timestampString = "557053566.904834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -922,11 +906,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682338"
+            timestampString = "557053566.9055099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "CMux:: ~CMux()"
             landmarkType = "7">
          </BreakpointContent>
@@ -938,11 +922,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682458"
+            timestampString = "557053566.906173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "CMux::audio_support(enum AVCodecID codecId,int *channel,uint64_t * layout,int *samplePerSec,AVSampleFormat * sample_fmt)"
             landmarkType = "7">
          </BreakpointContent>
@@ -954,27 +938,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682574"
+            timestampString = "557053566.9068201"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682675"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -986,11 +954,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682784"
+            timestampString = "557053566.907469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -1002,11 +970,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682882"
+            timestampString = "557053566.908067"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,11 +986,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.682978"
+            timestampString = "557053566.908699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.909325"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "597"
+            endingLineNumber = "597"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1034,7 +1018,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.6830651"
+            timestampString = "557053566.910109"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.910755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "204"
@@ -1050,27 +1050,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.683148"
+            timestampString = "557053566.91136"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.6832319"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
             landmarkType = "7">
          </BreakpointContent>
@@ -1082,11 +1066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.683321"
+            timestampString = "557053566.911919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "CTransCode::Trans()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1098,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.683599"
+            timestampString = "557053566.912185"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
+            startingLineNumber = "559"
+            endingLineNumber = "559"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1110,15 +1094,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.683682"
+            timestampString = "557053566.912738"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "CMux::audio_support(enum AVCodecID codecId,int *channel,uint64_t * layout,int *samplePerSec,AVSampleFormat * sample_fmt)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1126,31 +1110,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.683756"
+            timestampString = "557053566.913289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "574"
-            endingLineNumber = "574"
-            landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.683831"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "577"
-            endingLineNumber = "577"
+            startingLineNumber = "578"
+            endingLineNumber = "578"
             landmarkName = "CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_type_t,AVCodec **codec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1162,11 +1130,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.683907"
+            timestampString = "557053566.913836"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
+            startingLineNumber = "426"
+            endingLineNumber = "426"
             landmarkName = "CTransCode:: flush_encoder(int stream_index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1178,11 +1146,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.684182"
+            timestampString = "557053566.91409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
             landmarkName = "CTransCode:: flush_encoder(int stream_index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1190,15 +1158,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
-            timestampString = "556856341.684438"
+            timestampString = "557053566.914327"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "CTransCode:: flush_encoder(int stream_index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1210,11 +1178,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.684684"
+            timestampString = "557053566.914549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
             landmarkName = "CMux:: ~CMux()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1226,12 +1194,990 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
-            timestampString = "556856341.684752"
+            timestampString = "557053566.915048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.91555"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.915765"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.915971"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
+            landmarkName = "CTransCode::read_packet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.916181"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.916407"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
+            landmarkName = "CTransCode::read_packet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.916625"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
+            landmarkName = "CTransCode::read_packet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.916833"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "489"
+            endingLineNumber = "489"
+            landmarkName = "CTransCode::read_packet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueuePacket.cpp"
+            timestampString = "557053566.917042"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "CQueuePacket::Push(AVPacket *packet)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.917358"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "CTransCode::read_packet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.917555"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueuePacket.cpp"
+            timestampString = "557053566.917788"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "CQueuePacket::Push(AVPacket *packet)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueuePacket.cpp"
+            timestampString = "557053566.917864"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "CQueuePacket::Push(AVPacket *packet)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.917933"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.9181401"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "620"
+            endingLineNumber = "620"
+            landmarkName = "CTransCode:: encodec_push_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.918349"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "653"
+            endingLineNumber = "653"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.918546"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
+            landmarkName = "CTransCode:: encodec_push_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.91874"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "654"
+            endingLineNumber = "654"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.9189219"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "518"
+            endingLineNumber = "518"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.9191051"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "519"
+            endingLineNumber = "519"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueueFrame.cpp"
+            timestampString = "557053566.919311"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "CQueueFrame::Pop(AVFrame *frame,AVMediaType *type, int block)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueueFrame.cpp"
+            timestampString = "557053566.919539"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "CQueueFrame::Pop(AVFrame *frame,AVMediaType *type, int block)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.919605"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "789"
+            endingLineNumber = "789"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.920155"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "551"
+            endingLineNumber = "551"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.920333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.920537"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueueFrame.cpp"
+            timestampString = "557053566.920705"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "CQueueFrame::Push(AVFrame *frame,AVMediaType type)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.920751"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "927"
+            endingLineNumber = "927"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.921222"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "623"
+            endingLineNumber = "623"
+            landmarkName = "CTransCode:: encodec_push_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.921385"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "644"
+            endingLineNumber = "644"
+            landmarkName = "CTransCode:: encodec_push_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.921566"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
+            landmarkName = "CTransCode::read_packet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.921734"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "609"
+            endingLineNumber = "609"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.921891"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.9220411"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "570"
+            endingLineNumber = "570"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.922188"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "858"
+            endingLineNumber = "858"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.922684"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "660"
+            endingLineNumber = "660"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "type==AVMEDIA_TYPE_VIDEO"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.9228311"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.9230061"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "741"
+            endingLineNumber = "741"
+            landmarkName = "CMux:: write_frame(AVMediaType type,AVPacket &amp;pkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.9234411"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "764"
+            endingLineNumber = "764"
+            landmarkName = "CMux:: write_frame(AVMediaType type,AVPacket &amp;pkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.923934"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "628"
+            endingLineNumber = "628"
+            landmarkName = "CTransCode:: encodec_push_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.9241"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "893"
+            endingLineNumber = "893"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CQueuePacket.cpp"
+            timestampString = "557053566.9245321"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "CQueuePacket::Pop(AVPacket *packet, int block)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.92459"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "550"
+            endingLineNumber = "550"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.924705"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.924816"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "827"
+            endingLineNumber = "827"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.925182"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "589"
+            endingLineNumber = "589"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.925289"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "820"
+            endingLineNumber = "820"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TransCodeForAndroid/main.cpp"
+            timestampString = "557053566.925603"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "DecodecFun(void *arg)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.925895"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.925983"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TransCodeForAndroid/main.cpp"
+            timestampString = "557053566.926064"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "WriteFun(void *arg)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TransCodeForAndroid/main.cpp"
+            timestampString = "557053566.926128"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "ReadFun(void *arg)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TransCodeForAndroid/main.cpp"
+            timestampString = "557053566.926187"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "EncodecFun(void *arg)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.926246"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "697"
+            endingLineNumber = "697"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.926322"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "657"
+            endingLineNumber = "657"
+            landmarkName = "CTransCode:: write_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
+            timestampString = "557053566.9263951"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "CDemux::CDemux(void (*c_sendInfo)(int what, string info),const char* i_Filename)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.926453"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename, int des_Width, int des_Height , int des_ChannelCount, //&#x58f0;&#x9053; int des_Frequency, //&#x91c7;&#x6837;&#x7387; double des_FrameRate, //&#x5e27;&#x7387; AVCodecID des_Video_codecID , AVPixelFormat des_Video_pixelfromat , int des_bit_rate , int des_gop_size , int des_max_b_frame , int des_thread_count , //audio param uint64_t des_Layout, AVCodecID des_Audio_codecID ,//AV_CODEC_ID_AC3 AVSampleFormat des_BitsPerSample )"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CDemux.cpp"
+            timestampString = "557053566.926939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "CDemux::CDemux(void (*c_sendInfo)(int what, string info),const char* i_Filename)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.926998"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
+            landmarkName = "CTransCode::decodec_push_frame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            condition = "type==AVMEDIA_TYPE_VIDEO"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CTransCode.cpp"
+            timestampString = "557053566.927094"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
+            landmarkName = "CTransCode:: encodec_push_pack()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.927163"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "925"
+            endingLineNumber = "925"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../app/src/main/cpp/TransCode/CMux.cpp"
+            timestampString = "557053566.927505"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "901"
+            endingLineNumber = "901"
+            landmarkName = "CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

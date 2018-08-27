@@ -12,6 +12,7 @@
 #include "LogHelper.h"
 
 #include "CDemux.hpp"
+#include "CSemNamed.hpp"
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -75,7 +76,7 @@ public:
     int openCode(int stream_idx);
     int closeCode(int stream_idx);
     void write_frame(AVMediaType type,AVPacket &pkt);
-
+    int encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt);
     int code_and_write(AVMediaType type,AVFrame * frame);
 
 
@@ -108,7 +109,15 @@ public:
     
     bool get_video_directWrite(){return video_directWrite;}
     bool get_audio_directWrite(){return audio_directWrite;}
+    
+    CSemNamed *get_audioSemEmpty(){ return audioSemEmpty;}
+    CSemNamed * get_audioSemFull(){return audioSemFull;}
+    CSemNamed * get_audioMtx(){return audioMtx;}
+    
+//    mutex *get_audioMtx(){return &audioMtx;}                 //互斥量
+//    condition_variable *get_audioCondVar(){return &audioCondVar;}//条件变量
    
+
 private:
     bool _isFail;;
 
@@ -177,6 +186,12 @@ private:
     
     bool video_directWrite=false;
     bool audio_directWrite=false;
+    
+//    mutex audioMtx;                 //互斥量
+//    condition_variable audioCondVar;//条件变量
+    CSemNamed *audioSemEmpty;
+    CSemNamed *audioSemFull;
+    CSemNamed *audioMtx;
     
 };
 

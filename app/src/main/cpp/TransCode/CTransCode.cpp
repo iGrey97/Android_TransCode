@@ -18,6 +18,11 @@ CTransCode::CTransCode(void (*c_sendInfo)(int what, string info),CDemux *Demux,C
     _isFail= false;
 
     
+    audioSemEmpty=Mux->get_audioSemEmpty();
+    audioSemFull=Mux->get_audioSemFull();
+    audioMtx=Mux->get_audioMtx();
+    
+    
     pinframe = NULL;
     pout_video_frame = NULL;
     pout_audio_frame = NULL;
@@ -351,7 +356,7 @@ int CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *o
         /*************************每次从新getdelay版本**********************/
         
         int64_t src_nb_samples = in_frame->nb_samples;//
-        cout<<swr_get_delay(pSwrCtx,o_audio_st->codecpar->sample_rate)<<endl;
+        cout<<"delay:"<<swr_get_delay(pSwrCtx,o_audio_st->codecpar->sample_rate)<<endl;
         LOGI("getdelay%d",swr_get_delay(pSwrCtx,o_audio_st->codec->sample_rate));
         
         //重新开空间
@@ -372,12 +377,29 @@ int CTransCode:: pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *o
         
       
         
+       
+        
+        
+//        std::unique_lock<std::mutex> lck(*(Mux->get_audioMtx()));
+//        lck.lock();
+        
+        audioSemEmpty->P();
+        
+        
+        audioMtx->P();
+        cout<<"write:" <<av_audio_fifo_size(Mux->get_audiofifo())<<endl;
+//        if(av_audio_fifo_size(Mux->get_audiofifo())>4096){
+////           this->audioCondVar.wait(lck);//太多等待
+//            Mux->get_audioCondVar()->wait(lck);
+//        }
         
         
         av_audio_fifo_realloc(Mux->get_audiofifo(), av_audio_fifo_size(Mux->get_audiofifo()) + out_frame->nb_samples);
         
         av_audio_fifo_write(Mux->get_audiofifo(),(void **)out_frame->data,out_frame->nb_samples);
         
+        audioMtx->V();
+        audioSemFull->V();
         
 //        out_frame->pkt_pts = in_frame->pkt_pts;
 //        out_frame->pkt_dts = in_frame->pkt_dts;
@@ -452,3 +474,375 @@ void CTransCode:: flush_encoder(int stream_index){
     }
     
 }
+
+void  CTransCode::read_packet(){
+    
+    AVPacket pkt;
+    while (1)
+    {
+        av_init_packet(&pkt);
+        if (av_read_frame(i_fmt_ctx, &pkt) < 0)
+        {
+            QueuePkt.Push(nullptr);
+            break;
+        }
+        QueuePkt.Push(&pkt);
+
+    }
+    
+}
+
+
+int CTransCode::decodec_push_frame()
+{
+    AVPacket pkt;
+//    AVFrame inFrame;
+//    AVFrame outFrame;
+//
+//    AVFrame *pInFrame;
+//    AVFrame *pOutFrame;
+//
+    int nRet=0;
+//
+//    nRet=av_frame_get_buffer(&inFrame, 0);
+//    if(nRet){
+//        return 0;
+//    }
+//    nRet=av_frame_get_buffer(&outFrame, 0);
+//    if(nRet){
+//        return 0;
+//    }
+    while (1)
+    {
+        av_init_packet(&pkt);
+        nRet=QueuePkt.Pop(&pkt, 1);
+        if (!nRet) {//finish
+            
+            QueueFrame.Push(nullptr,AVMEDIA_TYPE_UNKNOWN);
+            break;
+        }
+        
+        if(pkt.stream_index == i_video_stream_idx )
+        {
+            if(!video_directWrite)
+            {
+                nRet = Demux->decode(AVMEDIA_TYPE_VIDEO, pinframe, pkt);
+                if (nRet == 0)
+                {
+                   
+//                    //进度
+//                    int64_t pts=pkt.dts;
+//                    int64_t duration=i_fmt_ctx->streams[i_video_stream_idx]->duration;
+//                    int schedule=pts*1.0/duration*100;
+//
+//                    //使用流的方式int2String
+//                    stringstream stream;
+//                    stream<<schedule;
+//                    std::string strTemp=stream.str();   //此处也可以用 stream>>string_temp
+//                    if(this->c_sendInfo!= nullptr){
+//                        this->c_sendInfo(1,strTemp);//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//
+//                    LOGI("schedule:%d %%",schedule);
+//
+                    yuv_conversion(pinframe,pout_video_frame);
+//                    pout_video_frame->pts = pinframe->best_effort_timestamp;
+
+                    QueueFrame.Push(pout_video_frame,AVMEDIA_TYPE_VIDEO);
+//                    nRet = Mux->code_and_write(AVMEDIA_TYPE_VIDEO, pout_video_frame);
+                   
+                }
+            }
+            else
+            {
+                pkt.pos = -1;
+                pkt.stream_index=o_video_stream_idx;
+                nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
+                cout<<"video"<<endl;
+                LOGI("video");
+            }
+        }
+        //音频
+        else if (pkt.stream_index == i_audio_stream_idx)
+        {
+            
+            
+            if(!audio_directWrite)
+            {
+                nRet = Demux->decode(AVMEDIA_TYPE_AUDIO, pinframe, pkt);
+                if (nRet == 0)
+                {
+                  
+//                    //                        av_frame_get_buffer(pout_audio_frame, 0);、不用获取了，虽然av_freep释放了，但是av_samples_alloc又会获得
+                    if (swr_ctx == NULL)
+                    {
+                        swr_ctx = init_pcm_resample(pinframe,pout_audio_frame);
+                        if (!swr_ctx) {
+                            return 0;//失败
+                        }
+
+                    }
+                    if(pcm_resample(swr_ctx,pinframe,pout_audio_frame)<0)
+                    {
+                        return 0;//失败
+                    }
+                    QueueFrame.Push(pout_audio_frame,AVMEDIA_TYPE_AUDIO);
+
+                    
+                    
+                }
+            }
+            else
+            {
+                //格式一模一样直接写
+                
+                pkt.pos = -1;
+                pkt.stream_index=o_audio_stream_idx;
+                nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
+                cout<<"audio"<<endl;
+                LOGI("audio");
+            }
+        }
+        
+        av_packet_unref(&pkt);
+    }
+    return 1;
+}
+
+int CTransCode:: encodec_push_pack(){
+    AVPacket pktWrite;
+    AVFrame frame;
+    int nRet=0;
+    AVMediaType type;
+    while (1)
+    {
+      
+        nRet=QueueFrame.Pop(&frame,&type ,1);
+        if (!nRet) {//finish
+            QueuePktWrite.Push(nullptr);
+            break;
+        }
+//        while (1) {
+            nRet=Mux->encode(type, &frame, &pktWrite);
+            if(nRet==0){
+                QueuePktWrite.Push(&pktWrite);
+//                if (type==AVMEDIA_TYPE_AUDIO) {
+//                    continue;
+//                }
+//                else{
+//                    break;
+//                }
+            }
+//            else{
+//                break;
+//            }
+//        }
+       
+        
+       
+    }
+    return 1;
+}
+int CTransCode:: write_pack(){
+    AVPacket pktWrite;
+    int nRet=0;
+    AVMediaType type;
+    while (1)
+    {
+        
+        nRet=QueuePktWrite.Pop(&pktWrite,1);
+        if (!nRet) {//finish
+            nRet=QueuePktWrite.GetLength();
+
+            cout<<"finish"<<endl;
+                        break;
+        }
+        type= pktWrite.stream_index==o_video_stream_idx?AVMEDIA_TYPE_VIDEO:AVMEDIA_TYPE_AUDIO;
+        Mux->write_frame(type, pktWrite);
+       
+        
+    }
+    //清缓存
+    if(!video_directWrite){
+        flush_encoder(o_video_stream_idx);
+    }
+    if(!audio_directWrite){
+        flush_encoder(o_audio_stream_idx);
+    }
+
+    if (pinframe)
+    {
+        av_frame_free(&pinframe);
+        pinframe = NULL;
+    }
+    if (pout_video_frame)
+    {
+        av_frame_free(&pout_video_frame);
+        pout_video_frame = NULL;
+    }
+    if (pout_audio_frame)
+    {
+        av_frame_free(&pout_audio_frame);
+        pout_audio_frame = NULL;
+    }
+    if (swr_ctx)
+    {
+        swr_free(&swr_ctx);
+        swr_ctx = NULL;
+    }
+    LOGI("schedule:%d %%",100);
+    if(this->c_sendInfo!= nullptr){
+        this->c_sendInfo(1,"100");//调试去看的话不懂为啥strTemp传过去非法的
+    }
+    return 1;
+}
+
+//int CTransCode::decode_and_push_frame(){
+//
+//    AVPacket pkt;
+//    int nRet=0;
+//    while (1)
+//    {
+//        av_init_packet(&pkt);
+//        nRet=QueuePkt.Pop(&pkt, 1);
+//        if (!nRet) {//finish
+//            break;
+//        }
+//
+//        if(pkt.stream_index == i_video_stream_idx )
+//        {
+//            //            if (!video_directWrite) {
+//            //                <#statements#>
+//            //            }
+//            //如果是视频需要编解码
+//            //            if(des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate ||
+//            //               des_Width  != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width ||
+//            //               des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height ||
+//            //               video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id )//||
+//            ////               des_frameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+//            if(!video_directWrite)
+//            {
+//                nRet = Demux->decode(AVMEDIA_TYPE_VIDEO, pinframe, pkt);
+//                if (nRet == 0)
+//                {
+//                    //进度
+//                    int64_t pts=pkt.dts;
+//                    int64_t duration=i_fmt_ctx->streams[i_video_stream_idx]->duration;
+//                    int schedule=pts*1.0/duration*100;
+//
+//                    //使用流的方式int2String
+//                    stringstream stream;
+//                    stream<<schedule;
+//                    std::string strTemp=stream.str();   //此处也可以用 stream>>string_temp
+//                    if(this->c_sendInfo!= nullptr){
+//                        this->c_sendInfo(1,strTemp);//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//
+//                    LOGI("schedule:%d %%",schedule);
+//
+//                    yuv_conversion(pinframe,pout_video_frame);
+//                    pout_video_frame->pts = pinframe->best_effort_timestamp;
+//
+//                    nRet = Mux->code_and_write(AVMEDIA_TYPE_VIDEO, pout_video_frame);
+//
+//                }
+//            }
+//            else
+//            {
+//                pkt.pos = -1;
+//                pkt.stream_index=o_video_stream_idx;
+//                nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
+//                cout<<"video"<<endl;
+//                LOGI("video");
+//            }
+//        }
+//        //音频
+//        else if (pkt.stream_index == i_audio_stream_idx)
+//        {
+//
+//            //如果是音频需要编解码
+//            //            if(audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
+//            //               des_BitsPerSample != i_fmt_ctx->streams[i_audio_stream_idx]->codec->sample_fmt||
+//            //               des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate||
+//            //               des_channelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
+//            if(!audio_directWrite)
+//            {
+//                nRet = Demux->decode(AVMEDIA_TYPE_AUDIO, pinframe, pkt);
+//                if (nRet == 0)
+//                {
+//
+//                    //                        av_frame_get_buffer(pout_audio_frame, 0);、不用获取了，虽然av_freep释放了，但是av_samples_alloc又会获得
+//                    if (swr_ctx == NULL)
+//                    {
+//                        swr_ctx = init_pcm_resample(pinframe,pout_audio_frame);
+//                        if (!swr_ctx) {
+//                            return 0;//失败
+//                        }
+//
+//                    }
+//                    if(pcm_resample(swr_ctx,pinframe,pout_audio_frame)<0)
+//                    {
+//                        return 0;//失败
+//                    }
+//
+//
+//                    Mux->code_and_write(AVMEDIA_TYPE_AUDIO, pout_audio_frame);
+//                    av_freep(&(pout_audio_frame->data[0]));
+//
+//
+//                }
+//            }
+//            else
+//            {
+//                //格式一模一样直接写
+//
+//                pkt.pos = -1;
+//                pkt.stream_index=o_audio_stream_idx;
+//                nRet = av_interleaved_write_frame(o_fmt_ctx, &pkt);
+//                cout<<"audio"<<endl;
+//                LOGI("audio");
+//            }
+//        }
+//
+//        av_packet_unref(&pkt);
+//    }
+//
+//
+//
+//
+//
+//    //清缓存
+//    if(!video_directWrite){
+//        flush_encoder(o_video_stream_idx);
+//    }
+//    if(!audio_directWrite){
+//        flush_encoder(o_audio_stream_idx);
+//    }
+//
+//    if (pinframe)
+//    {
+//        av_frame_free(&pinframe);
+//        pinframe = NULL;
+//    }
+//    if (pout_video_frame)
+//    {
+//        av_frame_free(&pout_video_frame);
+//        pout_video_frame = NULL;
+//    }
+//    if (pout_audio_frame)
+//    {
+//        av_frame_free(&pout_audio_frame);
+//        pout_audio_frame = NULL;
+//    }
+//    if (swr_ctx)
+//    {
+//        swr_free(&swr_ctx);
+//        swr_ctx = NULL;
+//    }
+//    LOGI("schedule:%d %%",100);
+//    if(this->c_sendInfo!= nullptr){
+//        this->c_sendInfo(1,"100");//调试去看的话不懂为啥strTemp传过去非法的
+//    }
+//    return 1;
+//}
+

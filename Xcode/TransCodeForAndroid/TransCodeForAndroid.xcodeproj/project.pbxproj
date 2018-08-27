@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14DC6FAB212BFB0B006255F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FAA212BFB0B006255F7 /* main.cpp */; };
-		14DC6FB7212BFB56006255F7 /* CDemux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FB2212BFB56006255F7 /* CDemux.cpp */; };
-		14DC6FB8212BFB56006255F7 /* CTransCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FB5212BFB56006255F7 /* CTransCode.cpp */; };
-		14DC6FB9212BFB56006255F7 /* CMux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FB6212BFB56006255F7 /* CMux.cpp */; };
 		14DC6FC6212BFDDD006255F7 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FBE212BFDDD006255F7 /* libavfilter.a */; };
 		14DC6FC7212BFDDD006255F7 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FBF212BFDDD006255F7 /* libswresample.a */; };
 		14DC6FC8212BFDDD006255F7 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC0212BFDDD006255F7 /* libavdevice.a */; };
@@ -19,6 +15,13 @@
 		14DC6FCB212BFDDD006255F7 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC3212BFDDD006255F7 /* libavutil.a */; };
 		14DC6FCC212BFDDD006255F7 /* libpostproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC4212BFDDD006255F7 /* libpostproc.a */; };
 		14DC6FCD212BFDDD006255F7 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DC6FC5212BFDDD006255F7 /* libavcodec.a */; };
+		14DC6FF4213162E7006255F7 /* CQueueFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FED213162E6006255F7 /* CQueueFrame.cpp */; };
+		14DC6FF5213162E7006255F7 /* CTransCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FF0213162E7006255F7 /* CTransCode.cpp */; };
+		14DC6FF6213162E7006255F7 /* CDemux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FF1213162E7006255F7 /* CDemux.cpp */; };
+		14DC6FF7213162E7006255F7 /* CMux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FF3213162E7006255F7 /* CMux.cpp */; };
+		14DC6FF921316357006255F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FF821316357006255F7 /* main.cpp */; };
+		14DC6FFD213163FC006255F7 /* CQueuePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FFB213163FC006255F7 /* CQueuePacket.cpp */; };
+		14DC70002133D5FD006255F7 /* CSemNamed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14DC6FFE2133D5FD006255F7 /* CSemNamed.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,14 +38,6 @@
 
 /* Begin PBXFileReference section */
 		14DC6FA7212BFB0B006255F7 /* TransCodeForAndroid */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TransCodeForAndroid; sourceTree = BUILT_PRODUCTS_DIR; };
-		14DC6FAA212BFB0B006255F7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		14DC6FB1212BFB56006255F7 /* CDemux.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CDemux.hpp; path = ../../../app/src/main/cpp/TransCode/CDemux.hpp; sourceTree = "<group>"; };
-		14DC6FB2212BFB56006255F7 /* CDemux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDemux.cpp; path = ../../../app/src/main/cpp/TransCode/CDemux.cpp; sourceTree = "<group>"; };
-		14DC6FB3212BFB56006255F7 /* CTransCode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CTransCode.hpp; path = ../../../app/src/main/cpp/TransCode/CTransCode.hpp; sourceTree = "<group>"; };
-		14DC6FB4212BFB56006255F7 /* CMux.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CMux.hpp; path = ../../../app/src/main/cpp/TransCode/CMux.hpp; sourceTree = "<group>"; };
-		14DC6FB5212BFB56006255F7 /* CTransCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTransCode.cpp; path = ../../../app/src/main/cpp/TransCode/CTransCode.cpp; sourceTree = "<group>"; };
-		14DC6FB6212BFB56006255F7 /* CMux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMux.cpp; path = ../../../app/src/main/cpp/TransCode/CMux.cpp; sourceTree = "<group>"; };
-		14DC6FBC212BFD90006255F7 /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogHelper.h; path = ../../../app/src/main/cpp/include/LogHelper.h; sourceTree = "<group>"; };
 		14DC6FBE212BFDDD006255F7 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavfilter.a"; sourceTree = "<group>"; };
 		14DC6FBF212BFDDD006255F7 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libswresample.a"; sourceTree = "<group>"; };
 		14DC6FC0212BFDDD006255F7 /* libavdevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavdevice.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavdevice.a"; sourceTree = "<group>"; };
@@ -51,6 +46,20 @@
 		14DC6FC3212BFDDD006255F7 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavutil.a"; sourceTree = "<group>"; };
 		14DC6FC4212BFDDD006255F7 /* libpostproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpostproc.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libpostproc.a"; sourceTree = "<group>"; };
 		14DC6FC5212BFDDD006255F7 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = "../../../../../../iLib/ffmpeg-4.0.2/build/lib/libavcodec.a"; sourceTree = "<group>"; };
+		14DC6FEC213162E6006255F7 /* CTransCode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CTransCode.hpp; path = ../../../app/src/main/cpp/TransCode/CTransCode.hpp; sourceTree = "<group>"; };
+		14DC6FED213162E6006255F7 /* CQueueFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CQueueFrame.cpp; path = ../../../app/src/main/cpp/TransCode/CQueueFrame.cpp; sourceTree = "<group>"; };
+		14DC6FEE213162E6006255F7 /* CMux.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CMux.hpp; path = ../../../app/src/main/cpp/TransCode/CMux.hpp; sourceTree = "<group>"; };
+		14DC6FEF213162E6006255F7 /* CQueueFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CQueueFrame.hpp; path = ../../../app/src/main/cpp/TransCode/CQueueFrame.hpp; sourceTree = "<group>"; };
+		14DC6FF0213162E7006255F7 /* CTransCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTransCode.cpp; path = ../../../app/src/main/cpp/TransCode/CTransCode.cpp; sourceTree = "<group>"; };
+		14DC6FF1213162E7006255F7 /* CDemux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDemux.cpp; path = ../../../app/src/main/cpp/TransCode/CDemux.cpp; sourceTree = "<group>"; };
+		14DC6FF2213162E7006255F7 /* CDemux.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CDemux.hpp; path = ../../../app/src/main/cpp/TransCode/CDemux.hpp; sourceTree = "<group>"; };
+		14DC6FF3213162E7006255F7 /* CMux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMux.cpp; path = ../../../app/src/main/cpp/TransCode/CMux.cpp; sourceTree = "<group>"; };
+		14DC6FF821316357006255F7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = TransCodeForAndroid/main.cpp; sourceTree = SOURCE_ROOT; };
+		14DC6FFA213163A8006255F7 /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogHelper.h; path = ../../../app/src/main/cpp/include/LogHelper.h; sourceTree = "<group>"; };
+		14DC6FFB213163FC006255F7 /* CQueuePacket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CQueuePacket.cpp; path = ../../../app/src/main/cpp/TransCode/CQueuePacket.cpp; sourceTree = "<group>"; };
+		14DC6FFC213163FC006255F7 /* CQueuePacket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CQueuePacket.hpp; path = ../../../app/src/main/cpp/TransCode/CQueuePacket.hpp; sourceTree = "<group>"; };
+		14DC6FFE2133D5FD006255F7 /* CSemNamed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CSemNamed.cpp; path = ../../../app/src/main/cpp/TransCode/CSemNamed.cpp; sourceTree = "<group>"; };
+		14DC6FFF2133D5FD006255F7 /* CSemNamed.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CSemNamed.hpp; path = ../../../app/src/main/cpp/TransCode/CSemNamed.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +84,7 @@
 		14DC6F9E212BFB0B006255F7 = {
 			isa = PBXGroup;
 			children = (
-				14DC6FA9212BFB0B006255F7 /* TransCodeForAndroid */,
+				14DC6FDF2131625D006255F7 /* TransCodeForAndroid */,
 				14DC6FA8212BFB0B006255F7 /* Products */,
 				14DC6FBD212BFDDC006255F7 /* Frameworks */,
 			);
@@ -87,21 +96,6 @@
 				14DC6FA7212BFB0B006255F7 /* TransCodeForAndroid */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		14DC6FA9212BFB0B006255F7 /* TransCodeForAndroid */ = {
-			isa = PBXGroup;
-			children = (
-				14DC6FBC212BFD90006255F7 /* LogHelper.h */,
-				14DC6FB2212BFB56006255F7 /* CDemux.cpp */,
-				14DC6FB1212BFB56006255F7 /* CDemux.hpp */,
-				14DC6FB6212BFB56006255F7 /* CMux.cpp */,
-				14DC6FB4212BFB56006255F7 /* CMux.hpp */,
-				14DC6FB5212BFB56006255F7 /* CTransCode.cpp */,
-				14DC6FB3212BFB56006255F7 /* CTransCode.hpp */,
-				14DC6FAA212BFB0B006255F7 /* main.cpp */,
-			);
-			path = TransCodeForAndroid;
 			sourceTree = "<group>";
 		};
 		14DC6FBD212BFDDC006255F7 /* Frameworks */ = {
@@ -117,6 +111,28 @@
 				14DC6FC1212BFDDD006255F7 /* libswscale.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		14DC6FDF2131625D006255F7 /* TransCodeForAndroid */ = {
+			isa = PBXGroup;
+			children = (
+				14DC6FFA213163A8006255F7 /* LogHelper.h */,
+				14DC6FF821316357006255F7 /* main.cpp */,
+				14DC6FF1213162E7006255F7 /* CDemux.cpp */,
+				14DC6FF2213162E7006255F7 /* CDemux.hpp */,
+				14DC6FF3213162E7006255F7 /* CMux.cpp */,
+				14DC6FEE213162E6006255F7 /* CMux.hpp */,
+				14DC6FED213162E6006255F7 /* CQueueFrame.cpp */,
+				14DC6FEF213162E6006255F7 /* CQueueFrame.hpp */,
+				14DC6FF0213162E7006255F7 /* CTransCode.cpp */,
+				14DC6FEC213162E6006255F7 /* CTransCode.hpp */,
+				14DC6FFB213163FC006255F7 /* CQueuePacket.cpp */,
+				14DC6FFC213163FC006255F7 /* CQueuePacket.hpp */,
+				14DC6FFE2133D5FD006255F7 /* CSemNamed.cpp */,
+				14DC6FFF2133D5FD006255F7 /* CSemNamed.hpp */,
+			);
+			name = TransCodeForAndroid;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,10 +191,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14DC6FAB212BFB0B006255F7 /* main.cpp in Sources */,
-				14DC6FB8212BFB56006255F7 /* CTransCode.cpp in Sources */,
-				14DC6FB9212BFB56006255F7 /* CMux.cpp in Sources */,
-				14DC6FB7212BFB56006255F7 /* CDemux.cpp in Sources */,
+				14DC6FF6213162E7006255F7 /* CDemux.cpp in Sources */,
+				14DC6FF4213162E7006255F7 /* CQueueFrame.cpp in Sources */,
+				14DC6FF7213162E7006255F7 /* CMux.cpp in Sources */,
+				14DC6FF921316357006255F7 /* main.cpp in Sources */,
+				14DC6FF5213162E7006255F7 /* CTransCode.cpp in Sources */,
+				14DC6FFD213163FC006255F7 /* CQueuePacket.cpp in Sources */,
+				14DC70002133D5FD006255F7 /* CSemNamed.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

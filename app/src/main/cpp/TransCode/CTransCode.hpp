@@ -15,6 +15,15 @@
 #include <string>
 #include <iostream>
 
+
+#include "CMux.hpp"
+#include "CDemux.hpp"
+#include "CQueuePacket.hpp"
+#include "CQueueFrame.hpp"
+
+#include <mutex>
+#include <condition_variable>
+#include "CSemNamed.hpp"
 using namespace std;
 
 
@@ -41,8 +50,9 @@ extern "C"
 #include "stdint.h"
 
 
-#include "CMux.hpp"
-#include "CDemux.hpp"
+
+
+    
 class CTransCode{
   
 public:
@@ -58,6 +68,11 @@ public:
     int pcm_resample(SwrContext * pSwrCtx,AVFrame *in_frame, AVFrame *out_frame);
   
     void  flush_encoder(int stream_index);
+    
+    void read_packet();
+    int decodec_push_frame();
+    int encodec_push_pack();
+    int write_pack();
     
 private:
     bool _isFail;
@@ -107,6 +122,19 @@ private:
     
     bool video_directWrite=false;
     bool audio_directWrite=false;
+    
+    CQueuePacket  QueuePkt;
+    CQueueFrame   QueueFrame;
+    CQueuePacket  QueuePktWrite;
+    
+    
+    
+//    mutex audioMtx;                 //互斥量
+//    condition_variable audioCondVar;//条件变量
+    
+    CSemNamed *audioSemEmpty;
+    CSemNamed *audioSemFull;
+    CSemNamed *audioMtx;
     
 };
 };

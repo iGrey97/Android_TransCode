@@ -30,6 +30,10 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
            )
 :c_sendInfo(c_sendInfo),Demux(Demux),o_Filename(o_Filename)
 {
+
+    audioSemEmpty=new CSemNamed("/audioSemEmpty",32);
+    audioSemFull=new CSemNamed("/audioSemFull",0);
+    audioMtx=new CSemNamed("/audioMtx",1);
     _isFail= false;
 
     this->i_fmt_ctx=Demux->get_i_fmt_ctx();
@@ -131,8 +135,8 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
             o_video_stream_idx = i;//记录输出序号
             
 //            //输出帧率等于输入
-//            double FrameRate = i_fmt_ctx->streams[i]->r_frame_rate.num /(double)i_fmt_ctx->streams[i]->r_frame_rate.den;
-//            this->des_FrameRate =(int)(FrameRate + 0.5);
+            double FrameRate = i_fmt_ctx->streams[i]->r_frame_rate.num /(double)i_fmt_ctx->streams[i]->r_frame_rate.den;
+            this->des_FrameRate =(int)(FrameRate + 0.5);
 
              o_fmt_ctx->oformat->video_codec = des_Video_codecID;
 
@@ -539,7 +543,7 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
 
 
 
-//    output_stream->time_base  = in_stream->time_base;//编码时 avformat_write_header()后可能被系统改变（如90000），改不改取决于格式，不设置也由系统设置
+    output_stream->time_base  = in_stream->time_base;//编码时 avformat_write_header()后可能被系统改变（如90000），改不改取决于格式，不设置也由系统设置
 
     switch (codec_type_t)
     {
@@ -572,13 +576,13 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
             //            output_codec_context->time_base.den = 30;
             
             ////////////
-            output_codec_context->framerate.den = des_FrameRate;
-            output_codec_context->framerate.num = 1;// {30, 1};
-            output_codec_context->time_base.num = 1;
-            output_codec_context->time_base.den = des_FrameRate;
+//            output_codec_context->framerate.den = des_FrameRate;
+//            output_codec_context->framerate.num = 1;// {30, 1};
+//            output_codec_context->time_base.num = 1;
+//            output_codec_context->time_base.den = des_FrameRate;
 
 
-//            output_codec_context->time_base = av_inv_q(i_video_codec_ctx->framerate);
+            output_codec_context->time_base = av_inv_q(i_video_codec_ctx->framerate);
             output_codec_context->framerate = i_video_codec_ctx->framerate;
 
 //             output_codec_context->time_base =i_video_codec_ctx->time_base;//0/1打开编码器失败
@@ -762,6 +766,7 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
 
         audiopacket_t.flags = pkt.flags;
         audiopacket_t.stream_index =o_audio_stream_idx; //这里add_out_stream顺序有影响
+//        audiopacket_t.buf=pkt.buf;
         audiopacket_t.data = pkt.data;
         audiopacket_t.size = pkt.size;
         audiopacket_t.pts=pkt.pts;
@@ -777,6 +782,160 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
         LOGI("audio");
     }
 }
+
+int CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)
+{
+    int error =0;
+    AVCodecContext *CodecCtx = NULL;
+    
+    av_init_packet(outPkt);
+    outPkt->data = NULL; // packet data will be allocated by the encoder
+    outPkt->size = 0;
+    
+    
+    if (type == AVMEDIA_TYPE_AUDIO)
+    {
+        
+        CodecCtx = o_audio_codec_ctx;
+        
+        AVFrame * pFrameResample = av_frame_alloc();
+        pFrameResample->nb_samples     = CodecCtx->frame_size;
+        pFrameResample->channel_layout = CodecCtx->channel_layout;
+        pFrameResample->channels       = CodecCtx->channels;
+        pFrameResample->format         = CodecCtx->sample_fmt;
+        pFrameResample->sample_rate    = CodecCtx->sample_rate;
+   
+        if ((error = av_frame_get_buffer(pFrameResample, 0)) < 0)
+        {
+            av_frame_free(&pFrameResample);
+            return error;
+        }
+//        std::unique_lock<std::mutex> lck(this->audioMtx);
+
+        audioSemFull->P();
+        
+      
+        audioMtx->P();
+        
+        cout<<"read:"<<av_audio_fifo_size(audiofifo)<<endl;
+        if (av_audio_fifo_size(audiofifo) >= pFrameResample->nb_samples) //取出写入的未读的包
+        {
+            av_audio_fifo_read(audiofifo,(void **)pFrameResample->data,pFrameResample->nb_samples);
+            
+            
+            
+            pFrameResample->pts=frame->pts;
+
+            
+             error = avcodec_send_frame(CodecCtx, pFrameResample);
+            /* The encoder signals that it has nothing more to encode. */
+            if (error == AVERROR_EOF) {
+                
+            } else if (error < 0) {
+                fprintf(stderr, "Could not send packet for encoding (error '%s')\n",av_err2str(error));
+                return error;
+            }
+            
+            /* Receive one encoded frame from the encoder. */
+            error = avcodec_receive_packet(CodecCtx, outPkt);
+            /* If the encoder asks for more data to be able to provide an
+             * encoded frame, return indicating that no data is present. */
+            if (error == AVERROR(EAGAIN)) {
+                cout<<" AVERROR(EAGAIN)"<<endl;
+                
+                /* If the last frame has been encoded, stop encoding. */
+            } else if (error == AVERROR_EOF) {
+                cout<<" AVERROR_EOF"<<endl;
+                
+            } else if (error < 0) {
+                fprintf(stderr, "Could not encode frame (error '%s')\n",av_err2str(error));
+                
+                /* Default case: Return encoded data. */
+            } else {
+                
+                //                pkt.stream_index=o_audio_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+                
+                outPkt->stream_index=o_audio_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+//                break;
+                
+//                write_frame(AVMEDIA_TYPE_AUDIO,pkt);
+//                av_packet_unref(&pkt);
+            }
+            
+//            audioMtx->V();
+            
+        }else{
+
+           
+//            audioSemFull->V();
+//            this->audioCondVar.notify_all();//通知一个wait的线程
+            error=-1;
+        }
+        audioMtx->V();
+        audioSemEmpty->V();
+      
+       
+//         this->audioCondVar.notify_all();//通知一个wait的线程
+        if (pFrameResample)
+        {
+            av_frame_unref(pFrameResample);
+            
+            av_frame_free(&pFrameResample);
+            pFrameResample = NULL;
+        }
+        return error;
+        
+        
+        
+    }
+    else if (type == AVMEDIA_TYPE_VIDEO)
+    {
+        CodecCtx = o_video_codec_ctx;
+        
+        
+        
+        
+        
+        
+        
+         error = avcodec_send_frame(CodecCtx, frame);
+        /* The encoder signals that it has nothing more to encode. */
+        if (error == AVERROR_EOF) {
+            
+        } else if (error < 0) {
+            fprintf(stderr, "Could not send packet for encoding (error '%s')\n",av_err2str(error));
+            return error;
+        }
+        
+        /* Receive one encoded frame from the encoder. */
+        error = avcodec_receive_packet(CodecCtx, outPkt);
+        /* If the encoder asks for more data to be able to provide an
+         * encoded frame, return indicating that no data is present. */
+        if (error == AVERROR(EAGAIN)) {
+            
+            
+            /* If the last frame has been encoded, stop encoding. */
+        } else if (error == AVERROR_EOF) {
+            
+            
+        } else if (error < 0) {
+            fprintf(stderr, "Could not encode frame (error '%s')\n",av_err2str(error));
+            
+            /* Default case: Return encoded data. */
+        } else {
+            
+            outPkt->stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
+            
+//            write_frame(AVMEDIA_TYPE_VIDEO,pkt);
+//            av_packet_unref(&pkt);
+        }
+        return error;
+        
+    }
+    return 1;
+}
+
+
 
 int CMux:: code_and_write(AVMediaType type,AVFrame * frame)
 {
