@@ -4,21 +4,32 @@
 //#include "com_meitu_lyh_android_transcode_MainActivity.h"
 #include "com_meitu_lyh_android_transcode_Android_TransCode.h"
 #include <string>
-
+#include <iostream>
 #include "CMux.hpp"
 #include "CDemux.hpp"
 #include "CTransCode.hpp"
+#include <pthread.h>
+using namespace std;
 
-JNIEnv *env_global= nullptr;
+
+JavaVM *g_jvm = NULL;
 jobject object_global;
 jmethodID methodID_func_global;
 
 void c_sendInfo(int what, std::string info){
 
-    jstring jstrInfo = env_global->NewStringUTF(info.c_str());
+
+    JNIEnv *env= nullptr;
+    if (g_jvm->AttachCurrentThread(&env, NULL) != JNI_OK) {
+        LOGE("AttachCurrentThread() failed");
+        return ;
+    }
+
+    jstring jstrInfo = env->NewStringUTF(info.c_str());
 
     //调用signTest方法
-    env_global->CallIntMethod(object_global,methodID_func_global,what,jstrInfo);
+    env->CallVoidMethod(object_global,methodID_func_global,what,jstrInfo);
+    env->DeleteLocalRef(jstrInfo);
 
 
 }
@@ -26,6 +37,29 @@ void c_sendInfo(int what, std::string info){
 
 
 
+
+void *ReadFun(void *arg){
+    CTransCode *TransCode=(CTransCode *)arg;
+    TransCode->read_packet();
+    return nullptr;
+}
+void *DecodecFun(void *arg){
+    CTransCode *TransCode=(CTransCode *)arg;
+    TransCode->decodec_push_frame();
+    g_jvm->DetachCurrentThread();
+    return nullptr;
+}
+void *EncodecFun(void *arg){
+    CTransCode *TransCode=(CTransCode *)arg;
+    TransCode->encodec_push_pack();
+    return nullptr;
+}
+void *WriteFun(void *arg){
+    CTransCode *TransCode=(CTransCode *)arg;
+    TransCode->write_pack();
+    g_jvm->DetachCurrentThread();//一定要报JNIENV从线程解绑定，不然会段错误
+    return nullptr;
+}
 JNIEXPORT jint JNICALL Java_com_meitu_lyh_android_1transcode_Android_1TransCode_jni_1trancode
         (JNIEnv *env, jobject object, jstring i_file, jstring o_file, jint width, jint height, jint channels, jint audio_samp_rate){
 
@@ -52,17 +86,20 @@ JNIEXPORT jint JNICALL Java_com_meitu_lyh_android_1transcode_Android_1TransCode_
 
 
 
-    //
     jclass native_clazz = env->GetObjectClass(object);
     jmethodID methodID_func=env->GetMethodID(native_clazz,"sendInfo","(ILjava/lang/String;)V");
     //特别注意：String后面一定有分号（；）结束的,I不用
 
-    env_global= env;
-    object_global=object;
+
+
+
+    //JNIEnv指针只在当前线程中有效
+    //若想在别的线程使用，得保存JavaVM，在别的线程用AttachCurrentThread将线程附加到javaVM上，获得属于当前线程的JNIEnv
+    // 线程结束要DetachCurrentThread分离
+    env->GetJavaVM(&g_jvm);
+    object_global=env->NewGlobalRef(object);//全局引用，否则在局部的话结束了会释放掉，别的线程不能用了
     methodID_func_global=methodID_func;
 
-
-//    c_sendInfo(1,"58");
 
 
 
@@ -78,11 +115,47 @@ JNIEXPORT jint JNICALL Java_com_meitu_lyh_android_1transcode_Android_1TransCode_
     if(TransCode.isFail()){
         return 0;
     }
+    clock_t start,finish;
+    printf("--------start----------\n");
+    //////////////////////////////////////////////////////////////////////////
+
+    pthread_t Thread_Read_Id;
+    pthread_t Thread_Decodec_Id;
+    pthread_t Thread_Encodec_Id;
+    pthread_t Thread_Write_Id;
+
+
+
+    start=clock();//us为单位
+
+    pthread_create(&Thread_Read_Id, NULL, ReadFun, (void *)&TransCode);
+    pthread_create(&Thread_Decodec_Id,NULL,DecodecFun, (void *)&TransCode);
+    pthread_create(&Thread_Encodec_Id,NULL,EncodecFun,(void *)&TransCode);
+    pthread_create(&Thread_Write_Id, NULL, WriteFun, (void *)&TransCode);
+    pthread_join(Thread_Read_Id, NULL);
+    pthread_join(Thread_Decodec_Id, NULL);
+    pthread_join(Thread_Encodec_Id, NULL);
+    pthread_join(Thread_Write_Id, NULL);
+    finish=clock();
+    //////////////////////////////////////////////////////////////////////////
+    printf("--------finish----------\n");
+    printf("________%f(ms)__________\n",1000.0 * (finish-start)/CLOCKS_PER_SEC);
+
+    c_sendInfo(1,"100");
+
     return TransCode.Trans();
 
 
 
 
 
+
+
 }
+
+
+
+
+
+
 

@@ -15,9 +15,8 @@
 #include <string>
 #include <thread>
 #include <queue>
-#include <mutex>
-#include <condition_variable>
-
+#include "CSemNamed.hpp"
+#include "LogHelper.h"
 
 using namespace std;
 extern "C"
@@ -37,23 +36,22 @@ extern "C"
 
 class CQueuePacket{
 public:
-    CQueuePacket( int maxLength=128);
-    int Push(AVPacket *packet);
-    int Pop(AVPacket *packet,int block);
-    void flush();
-    int GetLength(){return this->length;}
+    CQueuePacket( const char *semName,const int maxLength=128);
+    int Push(AVPacket *packet,int who);
+    int Pop(AVPacket *packet,int who);
+    int GetLength();
     int GetMaxlength(){return this->maxLength;}
     
     
 private:
+    CSemNamed *semFull;
+    CSemNamed *semEmpty;
+    CSemNamed *semMtx;
     AVPacketList *front;
     AVPacketList *rear;
     int maxLength;                  //最大对列长度
     int length;                     //队列长度
-    int size;                       //队列总大小
-    mutex QueueMtx;                 //互斥量
-    condition_variable QueueCondVar;//条件变量
-    bool end=false;
+
     
 };
 

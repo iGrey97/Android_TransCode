@@ -8,42 +8,54 @@
 
 #include "CQueuePacket.hpp"
 
-CQueuePacket::CQueuePacket(int maxLength) {
-    this->maxLength=maxLength;
+CQueuePacket::CQueuePacket(const char *semName,const int maxLength):
+maxLength(maxLength){
+    string semEmptyName=semName;
+    semEmptyName+="Empty";
+    string semFullName=semName;
+    semFullName+="Full";
+    string semMtxName=semName;
+    semMtxName+="Mtx";
+    
+    semEmpty=new CSemNamed(semEmptyName.c_str(),maxLength);
+    semFull=new CSemNamed(semFullName.c_str(),0);
+    semMtx=new CSemNamed(semMtxName.c_str(),1);
+ 
+
     
     this->front=NULL;
     this->rear=NULL;
     this->length=0;                      //队列长度
-    this->size=0;                       //队列总大小
-    
+
     
 }
 
-int CQueuePacket::Push(AVPacket *packet) {
+int CQueuePacket::Push(AVPacket *packet,int who) {
     AVPacketList *newNode;
     
   
-    
-    if(!packet){
-        end=true;
-        this->QueueCondVar.notify_all();//通知一个wait的线程,避免等待时检测不到end
-        return 0;
-    }
+    semEmpty->P();
+
     newNode=(AVPacketList *)av_malloc(sizeof(AVPacketList));
     if (newNode==NULL) {
+        semEmpty->V();
         return -1;
     }
-
+    if(!packet){
+        newNode->pkt.data=NULL;
+ 
+    }else{
+        //    av_packet_copy_props(&newNode->pkt, packet);//不拷贝buf里的东西
+        av_packet_move_ref(&newNode->pkt, packet);//全部拷贝一份，原来的置为空
+        
+    }
     
-//    av_packet_copy_props(&newNode->pkt, packet);//不拷贝buf里的东西
-    av_packet_move_ref(&newNode->pkt, packet);//全部拷贝一份，原来的置为空
+
     
     
     newNode->next=NULL;
     
-    //QueueMtx.lock();普通加锁
-    std::unique_lock<std::mutex> lck(this->QueueMtx);//自动加锁与解锁
-    //lck ,unique_lock 对象
+    semMtx->P();
     if (this->rear==NULL) {//空队
         this->front=newNode;
         
@@ -52,65 +64,56 @@ int CQueuePacket::Push(AVPacket *packet) {
     }
     this->rear=newNode;
     this->length++;
-    this->size+=packet->size;
-    this->QueueCondVar.notify_all();//通知一个wait的线程
-    //QueueMtx.unlock();
+    LOGE("%d Packet::Push length：%d\n",who,this->length);
+    semMtx->V();
+
+    semFull->V();
     return 0;
 }
 
-int CQueuePacket::Pop(AVPacket *packet, int block) {
+int CQueuePacket::GetLength(){
+    int tempLength=0;
+    semMtx->P();
+    tempLength=this->length;
+    semMtx->V();
+    return tempLength;
+}
+
+int CQueuePacket::Pop(AVPacket *packet, int who) {
     
     
     AVPacketList *pkt_node_temp;
     int ret=0;
-    std::unique_lock<std::mutex> lck(this->QueueMtx);
-    while (1) {
-        pkt_node_temp=this->front;
-        if (pkt_node_temp!=NULL) {//有数据
-            this->front=this->front->next;
-            if (front==NULL) {//队空了、队尾要指向空，若队没空，队尾该在哪还在哪
-                this->rear=NULL;
-            }
-            this->length--;
-            this->size-=pkt_node_temp->pkt.size;
-            *packet=pkt_node_temp->pkt;
-            av_free(pkt_node_temp);
-            ret=1;
-            break;
-        }else if(block==0){//没数据、非阻塞
-            ret=0;
-            break;
-        }else{//没数据、阻塞
-            if (end) {
-                ret=0;
-                break;
-            }
-            this->QueueCondVar.wait(lck);
-           
+
+    semFull->P();
+    semMtx->P();
+
+    pkt_node_temp=this->front;
+
+    if (pkt_node_temp!=NULL) {//有数据
+        this->front=this->front->next;
+        if (front==NULL) {//队空了、队尾要指向空，若队没空，队尾该在哪还在哪
+            this->rear=NULL;
         }
+        this->length--;
+        LOGE("%d Packet::Pop length：%d\n",who,this->length);
+        
+
+
+        *packet=pkt_node_temp->pkt;
+        av_free(pkt_node_temp);
+        if (packet->data==nullptr) {
+            ret=0;
+        }else{
+            ret=1;
+        }
+        semMtx->V();
+    } else{
+        LOGE("%d Packet::Pop length：%d err\n",who,this->length);
     }
-    
+    semEmpty->V();
     return ret;
     
 }
 
-void CQueuePacket::flush(){
-    AVPacketList *ptemp=front;
-    
-    std::unique_lock<std::mutex> lck(this->QueueMtx);
-    
-    while (front!=NULL) {
-        ptemp=front->next;
-        front=ptemp;
-        //        av_free_packet(&ptemp->pkt);
-        av_packet_unref(&ptemp->pkt);
-        
-        av_freep(&ptemp);
-    }
-    rear = NULL;
-    length = 0;
-    size = 0;
-    
-    
-    
-}
+

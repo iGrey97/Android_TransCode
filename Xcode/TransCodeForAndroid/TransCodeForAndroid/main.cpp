@@ -11,7 +11,7 @@
 #include "CDemux.hpp"
 #include "CMux.hpp"
 #include <pthread.h>
-#define  OUTPUTURL "/Users/lyh/Desktop/phone/1001.mp4"
+#define  OUTPUTURL "/Users/lyh/Desktop/phone/1002.mp4"
 #define  INPUTURL "/Users/lyh/Desktop/phone/100.mp4"
 //#define INPUTURL   "/Users/lyh/Documents/MyProgram/FFMPEG/Transcoding/transcodeV2_0/father.avi"
 //#define OUTPUTURL  "/Users/lyh/Documents/MyProgram/FFMPEG/Transcoding/transcodeV2_0/father1111.mp4"
@@ -86,6 +86,7 @@ int main(int argc, const char * argv[]) {
 //#include <stdio.h>
 //#include <semaphore.h>
 //#include<iostream>
+//#include "CQueuePacket.hpp"
 //using namespace std;
 //
 //#define BUFF_SIZE 10
@@ -94,33 +95,51 @@ int main(int argc, const char * argv[]) {
 //sem_t  *sem_mutex; // 生产者和消费者的互斥锁
 //sem_t  *p_sem_mutex; // 空的时候，对消费者不可进
 //sem_t  *c_sem_mutex; // 满的时候，对生产者不可进
+//CQueuePacket  *QueuePkt;
+//CQueuePacket  *QueuePktWrite;
 //void * Producer(void *arg)
 //{
+//    AVPacket *pkt;
 //    while(1)
 //    {
-//        sem_wait(p_sem_mutex); //当缓冲池未满时
-//        sem_wait(sem_mutex); //等待缓冲池空闲
-//        count1++;
-//        cout<<"Producer:"<<count1<<endl;
-//        sem_post(sem_mutex);
-//        //        if(count < BUFF_SIZE)//缓冲池未满
-//        //            sem_post(&p_sem_mutex);
-//        //        if(count > 0) //缓冲池不为空
-//        sem_post(c_sem_mutex);
+//        pkt=av_packet_alloc();
+////        av_packet
+//        QueuePkt->Push(pkt,1);
+//        cout<<"Producer:"<<QueuePkt->GetLength()<<endl;
+//
+////        sem_wait(p_sem_mutex); //当缓冲池未满时
+////        sem_wait(sem_mutex); //等待缓冲池空闲
+////        count1++;
+////        cout<<"Producer:"<<count1<<endl;
+////        sem_post(sem_mutex);
+////        //        if(count < BUFF_SIZE)//缓冲池未满
+////        //            sem_post(&p_sem_mutex);
+////        //        if(count > 0) //缓冲池不为空
+////        sem_post(c_sem_mutex);
 //    }
 //    return NULL;
 //}
 //void * Consumer(void *arg)
 //{
+//    AVPacket pkt;
+//    int nRet;
 //    while(1)
 //    {
-//        sem_wait(c_sem_mutex);//缓冲池未空时
-//        sem_wait(sem_mutex); //等待缓冲池空闲∫
-//        count1--;
-//        cout<<"Consumer:"<<count1<<endl;
-//        sem_post(sem_mutex);
-//        //        if(count > 0)
-//        sem_post(p_sem_mutex);
+//        nRet=QueuePkt->Pop(&pkt, 1);
+//        if(nRet!=1){
+//            cout<<"error"<<endl;
+//        }
+//        cout<<"Consumer:"<<QueuePkt->GetLength()<<endl;
+//
+//
+//
+////        sem_wait(c_sem_mutex);//缓冲池未空时
+////        sem_wait(sem_mutex); //等待缓冲池空闲∫
+////        count1--;
+////        cout<<"Consumer:"<<count1<<endl;
+////        sem_post(sem_mutex);
+////        //        if(count > 0)
+////        sem_post(p_sem_mutex);
 //    }
 //    return NULL;
 //}
@@ -142,29 +161,14 @@ int main(int argc, const char * argv[]) {
 //{
 //    pthread_t ptid,ctid;
 //    //initialize the semaphores
-//    p_sem_mutex = i_sem_open("/p_sem_mutex",  5);
-//    c_sem_mutex = i_sem_open("/c_sem_mutex",  0);
-//    sem_mutex   = i_sem_open("/sem_mutex"  ,  1);
-////    p_sem_mutex = sem_open("/p_sem_mutex", 0, 0666, 5);
-////    c_sem_mutex = sem_open("/c_sem_mutex", 0, 0666, 0);
-////    sem_mutex   = sem_open("/sem_mutex"  , O_CREAT, 0666, 1);
-////    if (sem_mutex!=SEM_FAILED) {
+////    p_sem_mutex = i_sem_open("/p_sem_mutex",  5);
+////    c_sem_mutex = i_sem_open("/c_sem_mutex",  0);
+////    sem_mutex   = i_sem_open("/sem_mutex"  ,  1);
 ////
-////        sem_close(sem_mutex);
-////        sem_unlink("/sem_mutex");
-////        sem_mutex   = sem_open("/sem_mutex"  , O_CREAT, 0666, 1);
-////    }
-////    sem_mutex   = sem_open("/sem_mutex"  , 0);
-////    if (sem_mutex!=SEM_FAILED) {
-////
-////
-////
-////        sem_close(sem_mutex);
-////        sem_unlink("/sem_mutex");
-////        sem_mutex   = sem_open("/sem_mutex"  , O_CREAT, 0666, 1);
-////    }
-////    sem_mutex   = sem_open("/sem_mutex"  , 0);
-////
+//
+//     p_sem_mutex = i_sem_open("/p_sem_mutex",  5);
+//    QueuePkt=new CQueuePacket("/QueuePkt",2);
+//    //    QueueFrame;
 //    //creating producer and consumer threads
 //    if(pthread_create(&ptid, NULL,Producer, NULL))
 //    {

@@ -26,7 +26,7 @@ CDemux::CDemux(void (*c_sendInfo)(int what, string info),const char* i_Filename)
     i_video_codec_ctx=nullptr;
     i_audio_codec_ctx=nullptr;
 
-    LOGE("123");
+
     int nRet = avformat_open_input(&i_fmt_ctx, i_Filename,NULL, NULL);
     LOGD("##input nRet:%d\n", nRet);
     if (nRet != 0)
@@ -213,6 +213,7 @@ int CDemux:: closeDecode(int stream_idx)
 
 int CDemux::decode(AVMediaType type,AVFrame * frame,AVPacket &packet)
 {
+    int error=0;
     AVCodecContext *CodeCtx = NULL;
     if (type == AVMEDIA_TYPE_AUDIO)
     {
@@ -222,7 +223,7 @@ int CDemux::decode(AVMediaType type,AVFrame * frame,AVPacket &packet)
     {
         CodeCtx = i_video_codec_ctx;
     }
-    int error=avcodec_send_packet(CodeCtx, &packet);
+    error=avcodec_send_packet(CodeCtx, &packet);
     if (error < 0) {
         fprintf(stderr, "Could not send packet for decoding (error '%s')\n",
                 av_err2str(error));
@@ -247,7 +248,10 @@ int CDemux::decode(AVMediaType type,AVFrame * frame,AVPacket &packet)
     } else {
         //error就等于0
         //解码成功
-  
+//        enum AVPixelFormat;
+        
+   
+        frame->pts=frame->best_effort_timestamp;//mac上pts自动设置了，android没有
     }
     return error;
    

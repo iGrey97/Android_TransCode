@@ -9,6 +9,7 @@
 #ifndef CSemNamed_hpp
 #define CSemNamed_hpp
 #include <semaphore.h>
+#include <fcntl.h>
 #include <stdio.h>
 class CSemNamed{
 public:
@@ -19,6 +20,7 @@ public:
 private:
     const char *name;
     sem_t *sem_mutex;
+    bool nameflag=true;//使用有名还是无名信号量
 };
 
 #endif /* CSemNamed_hpp */

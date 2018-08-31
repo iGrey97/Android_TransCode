@@ -135,56 +135,67 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
             o_video_stream_idx = i;//记录输出序号
             
 //            //输出帧率等于输入
-            double FrameRate = i_fmt_ctx->streams[i]->r_frame_rate.num /(double)i_fmt_ctx->streams[i]->r_frame_rate.den;
-            this->des_FrameRate =(int)(FrameRate + 0.5);
+//            double FrameRate = i_fmt_ctx->streams[i]->r_frame_rate.num /(double)i_fmt_ctx->streams[i]->r_frame_rate.den;
+//            this->des_FrameRate =(int)(FrameRate + 0.5);
 
              o_fmt_ctx->oformat->video_codec = des_Video_codecID;
 
             //匹配视频yuv格式
             video_support(this->des_Video_codecID,&this->des_Video_pixelfromat);
             //如果是视频需要编解码
-            if(this->des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate ||
-               this->des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width ||
-               this->des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height ||
-               this->des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id)// ||
-//               this->des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
-               
-            {
-                o_video_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_VIDEO,&video_codec);
-                if (!o_video_st) {
-                    printf("Could not add_out_stream\n");
-                    LOGE("Could not add_out_stream\n");
-                    
-                    if(this->c_sendInfo!= nullptr){
-                        this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
-                    }
-                    _isFail=true;
-                    return ;
-                }
-            }
-            else
-            {
-                //直接重封装就好了
-                video_directWrite=true;
-               
-
-                o_video_st = avformat_new_stream(o_fmt_ctx,i_video_codec_ctx->codec);
-                if (!o_video_st) {
-                    if(this->c_sendInfo!= nullptr){
-                        this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
-                    }
-                    _isFail=true;
-                    return ;
-                }
-                o_video_st->id = o_video_stream_idx;
-                o_video_st->time_base=i_fmt_ctx->streams[i_video_stream_idx]->time_base;
-                o_video_st->r_frame_rate=i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate;
-                //复制AVCodecContext的设置（Copy the settings of AVCodecContext）
-
-                avcodec_parameters_from_context(o_fmt_ctx->streams[o_video_stream_idx]->codecpar, i_video_codec_ctx);//要设置codecpar，不然writetrail有问题
-
-
-            }
+//            if(this->des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate ||
+//               this->des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width ||
+//               this->des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height ||
+//               this->des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id)// ||
+////               this->des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate))
+//
+//            {
+//                o_video_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_VIDEO,&video_codec);
+//                if (!o_video_st) {
+//                    printf("Could not add_out_stream\n");
+//                    LOGE("Could not add_out_stream\n");
+//
+//                    if(this->c_sendInfo!= nullptr){
+//                        this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//                    _isFail=true;
+//                    return ;
+//                }
+//            }
+//            else
+//            {
+//                //直接重封装就好了
+//                video_directWrite=true;
+//
+//
+//               o_video_st = avformat_new_stream(o_fmt_ctx,NULL);
+//
+//                if (!o_video_st) {
+//                    if(this->c_sendInfo!= nullptr){
+//                        this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//                    _isFail=true;
+//                    return ;
+//                }
+//                 ret = avcodec_parameters_copy(o_video_st->codecpar, i_fmt_ctx->streams[i_video_stream_idx]->codecpar);
+//                if (ret!=0) {
+//                    if(this->c_sendInfo!= nullptr){
+//                        this->c_sendInfo(2,"avcodec_parameters_copy \n");//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//                    _isFail=true;
+//                    return ;
+//                }
+//
+//
+//                o_video_st->time_base=i_fmt_ctx->streams[i_video_stream_idx]->time_base;
+//                o_video_st->r_frame_rate=i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate;
+//                o_video_st->codecpar->codec_tag = 0;
+//                o_video_st->id=i_fmt_ctx->streams[i_video_stream_idx]->id;
+//
+//
+//
+//
+//            }
 
             
             
@@ -202,53 +213,57 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
 
             //匹配音频pcm格式
             audio_support(this->des_Audio_codecID, &this->des_ChannelCount, &this->des_Layout,&this->des_Frequency, &this->des_BitsPerSample);
-
+//            this->des_BitsPerSample=AV_SAMPLE_FMT_FLTP;
             //如果是音频需要编解码
-            if(this->des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
-               this->des_BitsPerSample != i_audio_codec_ctx->sample_fmt||
-               this->des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate||
-               this->des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
-            {
-                o_audio_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_AUDIO,&audio_codec);
-                if (!o_audio_st) {
-                    printf("Could not add_out_stream\n");
-                    LOGE("Could not add_out_stream\n");
-                    
-                    if(this->c_sendInfo!= nullptr){
-                        this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
-                    }
-                    _isFail=true;
-                    return ;
-                }
-
-            }
-            else
-            {
-
-
-                audio_directWrite=true;
-                //输入输出格式一样只需要封装
-                
-                
-                o_audio_st = avformat_new_stream(o_fmt_ctx,i_audio_codec_ctx->codec);
-                if (!o_video_st) {
-                    if(this->c_sendInfo!= nullptr){
-                        this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
-                    }
-                    _isFail=true;
-                    return ;
-                }
-                o_audio_st->id = o_audio_stream_idx;
-                o_audio_st->time_base=i_fmt_ctx->streams[i_audio_stream_idx]->time_base;
-
-        
-                //复制AVCodecContext的设置（Copy the settings of AVCodecContext）
-                avcodec_parameters_from_context(o_fmt_ctx->streams[o_audio_stream_idx]->codecpar, i_audio_codec_ctx);//要设置codecpar，不然writetrail有问题
-
-
-
-
-            }
+//            if(this->des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
+//               this->des_BitsPerSample != i_audio_codec_ctx->sample_fmt||
+//               this->des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate||
+//               this->des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
+//            {
+//                o_audio_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_AUDIO,&audio_codec);
+//                if (!o_audio_st) {
+//                    printf("Could not add_out_stream\n");
+//                    LOGE("Could not add_out_stream\n");
+//
+//                    if(this->c_sendInfo!= nullptr){
+//                        this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//                    _isFail=true;
+//                    return ;
+//                }
+//
+//            }
+//            else
+//            {
+//
+//
+//                audio_directWrite=true;
+//                //输入输出格式一样只需要封装
+//
+//                o_audio_st = avformat_new_stream(o_fmt_ctx,NULL);
+//                if (!o_audio_st) {
+//                    if(this->c_sendInfo!= nullptr){
+//                        this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//                    _isFail=true;
+//                    return ;
+//                }
+//                ret = avcodec_parameters_copy(o_audio_st->codecpar, i_fmt_ctx->streams[i_audio_stream_idx]->codecpar);
+//                if (ret!=0) {
+//                    if(this->c_sendInfo!= nullptr){
+//                        this->c_sendInfo(2,"avcodec_parameters_copy \n");//调试去看的话不懂为啥strTemp传过去非法的
+//                    }
+//                    _isFail=true;
+//                    return ;
+//                }
+//
+//                o_audio_st->codecpar->codec_tag = 0;
+//                o_audio_st->id=i_fmt_ctx->streams[i_audio_stream_idx]->id;
+//
+//
+//
+//
+//            }
   
 
 
@@ -256,6 +271,102 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
 
     }
 
+    ///////为了适应oppo上直接封装时输出流的id需等于输入流的id，而要编码时输出流的id=nbstreams-1，如果一个编码一个不变在oppo上会不能播放，所以控制只有两个都不编码才去直接封装
+    
+                if(this->des_bit_rate != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->bit_rate       ||
+                   this->des_Width != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->width             ||
+                   this->des_Height != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->height           ||
+                   this->des_Video_codecID != i_fmt_ctx->streams[i_video_stream_idx]->codecpar->codec_id  ||
+    //             this->des_FrameRate != av_q2d(i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate     ||
+                   this->des_Audio_codecID != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->codec_id  ||
+                   this->des_BitsPerSample != i_audio_codec_ctx->sample_fmt                               ||
+                   this->des_Frequency !=i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->sample_rate    ||
+                   this->des_ChannelCount != i_fmt_ctx->streams[i_audio_stream_idx]->codecpar->channels)
+                {
+                    o_video_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_VIDEO,&video_codec);
+                    if (!o_video_st) {
+                        printf("Could not add_out_stream\n");
+                        LOGE("Could not add_out_stream\n");
+    
+                        if(this->c_sendInfo!= nullptr){
+                            this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+                        }
+                        _isFail=true;
+                        return ;
+                    }
+                    o_audio_st = add_out_stream(i_fmt_ctx, AVMEDIA_TYPE_AUDIO,&audio_codec);
+                    if (!o_audio_st) {
+                        printf("Could not add_out_stream\n");
+                        LOGE("Could not add_out_stream\n");
+                        
+                        if(this->c_sendInfo!= nullptr){
+                            this-> c_sendInfo(2,"Could not add_out_stream\n");//调试去看的话不懂为啥strTemp传过去非法的
+                        }
+                        _isFail=true;
+                        return ;
+                    }
+                }
+                else
+                {
+                    //直接重封装就好了
+                    video_directWrite=true;
+    
+    
+                   o_video_st = avformat_new_stream(o_fmt_ctx,NULL);
+    
+                    if (!o_video_st) {
+                        if(this->c_sendInfo!= nullptr){
+                            this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
+                        }
+                        _isFail=true;
+                        return ;
+                    }
+                     ret = avcodec_parameters_copy(o_video_st->codecpar, i_fmt_ctx->streams[i_video_stream_idx]->codecpar);
+                    if (ret!=0) {
+                        if(this->c_sendInfo!= nullptr){
+                            this->c_sendInfo(2,"avcodec_parameters_copy \n");//调试去看的话不懂为啥strTemp传过去非法的
+                        }
+                        _isFail=true;
+                        return ;
+                    }
+    
+    
+                    o_video_st->time_base=i_fmt_ctx->streams[i_video_stream_idx]->time_base;
+                    o_video_st->r_frame_rate=i_fmt_ctx->streams[i_video_stream_idx]->r_frame_rate;
+                    o_video_st->codecpar->codec_tag = 0;
+                    o_video_st->id=i_fmt_ctx->streams[i_video_stream_idx]->id;
+    
+    
+    
+                    audio_directWrite=true;
+                    //输入输出格式一样只需要封装
+    
+                    o_audio_st = avformat_new_stream(o_fmt_ctx,NULL);
+                    if (!o_audio_st) {
+                        if(this->c_sendInfo!= nullptr){
+                            this->c_sendInfo(2,"Failed to new stream \n");//调试去看的话不懂为啥strTemp传过去非法的
+                        }
+                        _isFail=true;
+                        return ;
+                    }
+                    ret = avcodec_parameters_copy(o_audio_st->codecpar, i_fmt_ctx->streams[i_audio_stream_idx]->codecpar);
+                    if (ret!=0) {
+                        if(this->c_sendInfo!= nullptr){
+                            this->c_sendInfo(2,"avcodec_parameters_copy \n");//调试去看的话不懂为啥strTemp传过去非法的
+                        }
+                        _isFail=true;
+                        return ;
+                    }
+    
+                    o_audio_st->codecpar->codec_tag = 0;
+                    o_audio_st->id=i_fmt_ctx->streams[i_audio_stream_idx]->id;
+    
+    
+    
+    
+                }
+
+    ///////
 
     av_dump_format(o_fmt_ctx, 0, o_Filename, 1);
 
@@ -282,8 +393,10 @@ CMux::CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o
             return ;
         }
     }
-    
+
      ret = avformat_write_header(o_fmt_ctx, NULL);//会设置流的时基（视频90000、音频sample_rate）
+
+
     if (ret != 0)
     {
         sprintf(szError,"Call avformat_write_header function failed:%s.\n", av_err2str(ret));
@@ -534,8 +647,8 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
         return NULL;
     }
 
-    output_stream->id = o_fmt_ctx->nb_streams - 1;
-    
+    output_stream->id = o_fmt_ctx->nb_streams-1;
+//    output_stream->id = 2;
     
 
     output_codec_context = avcodec_alloc_context3(*codec);
@@ -543,11 +656,13 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
 
 
 
-    output_stream->time_base  = in_stream->time_base;//编码时 avformat_write_header()后可能被系统改变（如90000），改不改取决于格式，不设置也由系统设置
+//    output_stream->time_base  = in_stream->time_base;//编码时 avformat_write_header()后可能被系统改变（如90000），改不改取决于格式，不设置也由系统设置
 
     switch (codec_type_t)
     {
         case AVMEDIA_TYPE_AUDIO:
+//            output_stream->id=1;
+
             o_audio_codec_ctx=output_codec_context;
 
             output_codec_context->codec_id = des_Audio_codecID;
@@ -567,6 +682,7 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
 
             break;
         case AVMEDIA_TYPE_VIDEO:
+//            output_stream->id=0;
             o_video_codec_ctx=output_codec_context;
             
             /////////////
@@ -576,14 +692,14 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
             //            output_codec_context->time_base.den = 30;
             
             ////////////
-//            output_codec_context->framerate.den = des_FrameRate;
-//            output_codec_context->framerate.num = 1;// {30, 1};
-//            output_codec_context->time_base.num = 1;
-//            output_codec_context->time_base.den = des_FrameRate;
+            output_codec_context->framerate.den = des_FrameRate;
+            output_codec_context->framerate.num = 1;// {30, 1};
+            output_codec_context->time_base.num = 1;
+            output_codec_context->time_base.den = des_FrameRate;
 
 
-            output_codec_context->time_base = av_inv_q(i_video_codec_ctx->framerate);
-            output_codec_context->framerate = i_video_codec_ctx->framerate;
+//            output_codec_context->time_base = av_inv_q(i_video_codec_ctx->framerate);
+//            output_codec_context->framerate = i_video_codec_ctx->framerate;
 
 //             output_codec_context->time_base =i_video_codec_ctx->time_base;//0/1打开编码器失败
 //            output_stream->time_base = av_inv_q(i_video_codec_ctx->framerate);
@@ -636,7 +752,7 @@ AVStream * CMux::add_out_stream(AVFormatContext* i_fmt_ctx,AVMediaType codec_typ
         LOGE("Could not openDecodem\n");
         return nullptr;
     }
-    error = openCode(output_stream->id);//打开编码器要放在copyfromctx之前（打开会给ctx赋值）
+    error = openCode(output_stream->index);//打开编码器要放在copyfromctx之前（打开会给ctx赋值）
     if(error!=1){
         //打开失败
         printf("Could not openCode\n");
@@ -667,6 +783,7 @@ int CMux::openCode(int stream_idx)
         CodecCtx = o_audio_codec_ctx;
         //打开编码器
         int nRet = avcodec_open2(CodecCtx, audio_codec, NULL);
+        av_strerror(nRet, szError, 256);
         if (nRet < 0)
         {
             printf("Could not open encoder\n");
@@ -687,6 +804,7 @@ int CMux::openCode(int stream_idx)
 
         //打开编码器
         int nRet = avcodec_open2(CodecCtx, video_codec, &opts);
+        av_strerror(nRet, szError, 256);
         if (nRet < 0)
         {
             printf("Could not open encoder\n");
@@ -766,7 +884,6 @@ void CMux:: write_frame(AVMediaType type,AVPacket &pkt){
 
         audiopacket_t.flags = pkt.flags;
         audiopacket_t.stream_index =o_audio_stream_idx; //这里add_out_stream顺序有影响
-//        audiopacket_t.buf=pkt.buf;
         audiopacket_t.data = pkt.data;
         audiopacket_t.size = pkt.size;
         audiopacket_t.pts=pkt.pts;
@@ -812,9 +929,10 @@ int CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)
         }
 //        std::unique_lock<std::mutex> lck(this->audioMtx);
 
+        cout<<"read:audioSemFull"<<endl;
         audioSemFull->P();
         
-      
+       cout<<"read:audioMtx"<<endl;
         audioMtx->P();
         
         cout<<"read:"<<av_audio_fifo_size(audiofifo)<<endl;
@@ -873,7 +991,7 @@ int CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)
         }
         audioMtx->V();
         audioSemEmpty->V();
-      
+        cout<<"read:finish"<<endl;
        
 //         this->audioCondVar.notify_all();//通知一个wait的线程
         if (pFrameResample)
@@ -913,7 +1031,7 @@ int CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)
          * encoded frame, return indicating that no data is present. */
         if (error == AVERROR(EAGAIN)) {
             
-            
+             cout<<" AVERROR(EAGAIN)"<<endl;
             /* If the last frame has been encoded, stop encoding. */
         } else if (error == AVERROR_EOF) {
             
@@ -926,8 +1044,7 @@ int CMux:: encode(AVMediaType type,AVFrame * frame,AVPacket *outPkt)
             
             outPkt->stream_index=o_video_stream_idx;//这样设置一下就可以直接写了，不用再设置pts、dts
             
-//            write_frame(AVMEDIA_TYPE_VIDEO,pkt);
-//            av_packet_unref(&pkt);
+
         }
         return error;
         

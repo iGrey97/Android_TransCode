@@ -14,6 +14,7 @@
 #include "CDemux.hpp"
 #include "CSemNamed.hpp"
 #include <stdio.h>
+#include <string>
 #include <iostream>
 using namespace std;
 
@@ -49,14 +50,14 @@ public:
     CMux(void (*c_sendInfo)(int what, string info),CDemux *Demux,const char* o_Filename,
          //video param
          int des_Width = 480,
-         int des_Height = 200,
+         int des_Height = 480,
          int des_ChannelCount = 2,      //声道
-         int des_Frequency = 44100,     //采样率
+         int des_Frequency = 48000,     //采样率
 
          double des_FrameRate = 23,  //帧率
          AVCodecID des_Video_codecID = AV_CODEC_ID_H264,
          AVPixelFormat des_Video_pixelfromat = AV_PIX_FMT_YUV420P,
-         int des_bit_rate =261371,// 3210886,//261371,
+         int des_bit_rate =3210886,// 3210886,//261371,
          int des_gop_size = 12,
          int des_max_b_frame = 2,
          int des_thread_count = 2,
@@ -83,8 +84,7 @@ public:
 
     AVFormatContext* get_o_fmt_ctx(){return o_fmt_ctx;}
 
-    int get_i_video_stream_idx(){return i_video_stream_idx;}
-    int get_i_audio_stream_idx(){return i_audio_stream_idx;}
+
     int get_o_video_stream_idx(){return o_video_stream_idx;}
     int get_o_audio_stream_idx(){return o_audio_stream_idx;}
     AVStream * get_o_video_st(){return o_video_st;}
@@ -113,9 +113,7 @@ public:
     CSemNamed *get_audioSemEmpty(){ return audioSemEmpty;}
     CSemNamed * get_audioSemFull(){return audioSemFull;}
     CSemNamed * get_audioMtx(){return audioMtx;}
-    
-//    mutex *get_audioMtx(){return &audioMtx;}                 //互斥量
-//    condition_variable *get_audioCondVar(){return &audioCondVar;}//条件变量
+
    
 
 private:
@@ -128,10 +126,13 @@ private:
 
 
     AVFormatContext* o_fmt_ctx ;
+    AVStream * o_video_st ;
+    AVStream * o_audio_st ;
     AVCodecContext *o_video_codec_ctx;
     AVCodecContext *o_audio_codec_ctx;
     int o_video_stream_idx ;
     int o_audio_stream_idx ;
+
 
     AVFormatContext* i_fmt_ctx;
     AVCodecContext *i_video_codec_ctx;
@@ -139,8 +140,7 @@ private:
     int i_video_stream_idx;
     int i_audio_stream_idx;
 
-    AVStream * o_video_st ;
-    AVStream * o_audio_st ;
+
 
     AVCodec *audio_codec ;
     AVCodec *video_codec ;
@@ -176,9 +176,7 @@ private:
 
 
 
-    //mp3
-    //AVCodecID audio_codecID = AV_CODEC_ID_MP3;
-    //int audio_frame_size  = 1152;
+
 
 
     AVAudioFifo * audiofifo ;

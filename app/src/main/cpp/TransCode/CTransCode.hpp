@@ -46,6 +46,7 @@ extern "C"
 #include "libavutil/time.h"
 #include "libavutil/fifo.h"
 #include "libavutil/audio_fifo.h"
+#include "libavutil/imgutils.h"
 #include "inttypes.h"
 #include "stdint.h"
 
@@ -82,14 +83,16 @@ private:
     AVFrame *pinframe ;
     AVFrame * pout_video_frame ;
     AVFrame * pout_audio_frame ;
+
+
     SwrContext * swr_ctx ;
     int sws_flags ;
     struct SwsContext * img_convert_ctx_video ;
-    int dst_nb_samples ;
-    int resampled_data_size ;
-   
 
-    uint8_t * pOutput_buf ;
+    CSemNamed *audioSemEmpty;
+    CSemNamed *audioSemFull;
+    CSemNamed *audioMtx;
+
     
     AVFormatContext *o_fmt_ctx;
     AVCodecContext *o_video_codec_ctx;
@@ -123,18 +126,12 @@ private:
     bool video_directWrite=false;
     bool audio_directWrite=false;
     
-    CQueuePacket  QueuePkt;
-    CQueueFrame   QueueFrame;
-    CQueuePacket  QueuePktWrite;
+    CQueuePacket  *QueuePkt;
+    CQueueFrame   *QueueFrame;
+    CQueuePacket  *QueuePktWrite;
     
-    
-    
-//    mutex audioMtx;                 //互斥量
-//    condition_variable audioCondVar;//条件变量
-    
-    CSemNamed *audioSemEmpty;
-    CSemNamed *audioSemFull;
-    CSemNamed *audioMtx;
+
+
     
 };
 };
